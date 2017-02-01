@@ -29,10 +29,26 @@ Scene::Scene()
 	// Create a game object
 	// This needs a material and a mesh
 
-	for (size_t i = 0; i < 7; i++)
+	
+
+	for (size_t y = 0; y < 40; y++)
 	{
-		_models.push_back(new GameObject);
+		std::vector<GameObject*> tempRow;
+		for (size_t x = 0; x < 40; x++)
+		{		
+			tempRow.push_back(nullptr);			
+		}
+		_models.push_back(tempRow);
 	}
+
+	for (size_t y = 0; y < _models.size(); y++)
+	{
+		for (size_t x = 0; x < _models[y].size(); x++)
+		{
+			_models[y][x] = new GameObject;
+		}
+	}
+	
 
 	// Create the material for the game object
 	Material *modelMaterial = new Material();
@@ -45,7 +61,7 @@ Scene::Scene()
 	// This is multiplied by all the light components (ambient, diffuse, specular)
 	// Note that the diffuse colour set with the line above will be multiplied by the texture colour
 	// If you want just the texture colour, use modelMaterial->SetDiffuseColour( glm::vec3(1,1,1) );
-	modelMaterial->SetTexture("Image1.bmp");
+	modelMaterial->SetTexture("Image2.bmp");
 	// Need to tell the material the light's position
 	// If you change the light's position you need to call this again
 	modelMaterial->SetLightPosition(_lightPosition);
@@ -57,13 +73,17 @@ Scene::Scene()
 	modelMesh->LoadOBJ("teapot3.obj");
 	// Tell the game object to use this mesh
 
-	for (size_t i = 0; i < _models.size(); i++)
+
+	for (size_t y = 0; y < _models.size(); y++)
 	{
-		modelMaterial->SetDiffuseColour(glm::vec3(0.8 / i, 0.1 * i, 0.1));
-		_models[i]->SetMaterial(modelMaterial);
-		_models[i]->SetMesh(modelMesh);
-		_models[i]->SetPosition(1 * i, 1 * i, 1 * i);
-		_models[i]->SetRotation(1 * (i + 1), 0, 0.01);
+		for (size_t x = 0; x < _models[y].size(); x++)
+		{
+			modelMaterial->SetDiffuseColour(glm::vec3(0.8 / x, 0.1 * y, 0.1));
+			_models[y][x]->SetMaterial(modelMaterial);
+			_models[y][x]->SetMesh(modelMesh);
+			_models[y][x]->SetRotation(1 * (x + 1), 0, 0.01);
+			_models[y][x]->SetPosition(x, -5, y);
+		}
 	}
 
 }
@@ -76,9 +96,13 @@ Scene::~Scene()
 void Scene::Update( float deltaTs )
 {
 	// Update the game object (this is currently hard-coded to rotate)
-	for (size_t i = 0; i < _models.size(); i++)
+
+	for (size_t y = 0; y < _models.size(); y++)
 	{
-		_models[i]->Update(deltaTs * (i + 1));
+		for (size_t x = 0; x < _models[y].size(); x++)
+		{
+			_models[y][x]->Update(deltaTs * (y + 1));
+		}
 	}
 	
 
@@ -89,9 +113,12 @@ void Scene::Update( float deltaTs )
 void Scene::Draw()
 {
 	// Draw that model, giving it the camera's position and projection
-	for (size_t i = 0; i < _models.size(); i++)
+	for (size_t y = 0; y < _models.size(); y++)
 	{
-		_models[i]->Draw(_viewMatrix, _projMatrix);
+		for (size_t x = 0; x < _models[y].size(); x++)
+		{
+			_models[y][x]->Draw(_viewMatrix, _projMatrix);
+		}
 	}
 
 }

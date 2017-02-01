@@ -39,7 +39,7 @@ protected:
 	// Currently one object, this could be a list of objects!
 	//GameObject *_model;
 		
-	std::vector<GameObject*> _models;
+	std::vector<std::vector<GameObject*>> _models;
 
 	// This matrix represents the camera's position and orientation
 	glm::mat4 _viewMatrix;

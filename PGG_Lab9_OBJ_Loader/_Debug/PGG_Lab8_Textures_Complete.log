@@ -1,0 +1,23 @@
+﻿Build started 07/01/2016 14:31:33.
+     1>Project "\\bournemouth.ac.uk\data\Staff\Home\lmcloughlin\Visual Studio 2012\Projects\PGG_Lab8_Textures_Complete\PGG_Lab8_Textures_Complete\PGG_Lab8_Textures_Complete.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SDKs\SDL\SDL2-devel-2.0.3-VC\SDL2-2.0.3\include" /IC:\SDKs\glm /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D GLEW_STATIC /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp Scene.cpp
+         Main.cpp
+         Generating Code...
+         Compiling...
+         Scene.cpp
+     1>\\bournemouth.ac.uk\data\staff\home\lmcloughlin\visual studio 2012\projects\pgg_lab8_textures_complete\pgg_lab8_textures_complete\scene.cpp(60): warning C4305: '-=' : truncation from 'double' to 'float'
+     1>\\bournemouth.ac.uk\data\staff\home\lmcloughlin\visual studio 2012\projects\pgg_lab8_textures_complete\pgg_lab8_textures_complete\scene.cpp(66): warning C4305: '-=' : truncation from 'double' to 'float'
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\bournemouth.ac.uk\data\Staff\Home\lmcloughlin\Visual Studio 2012\Projects\PGG_Lab8_Textures_Complete\Debug\PGG_Lab8_Textures_Complete.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SDKs\SDL\SDL2-devel-2.0.3-VC\SDL2-2.0.3\lib\x86" SDL2.lib SDL2main.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"\\bournemouth.ac.uk\data\Staff\Home\lmcloughlin\Visual Studio 2012\Projects\PGG_Lab8_Textures_Complete\Debug\PGG_Lab8_Textures_Complete.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\bournemouth.ac.uk\data\Staff\Home\lmcloughlin\Visual Studio 2012\Projects\PGG_Lab8_Textures_Complete\Debug\PGG_Lab8_Textures_Complete.lib" /MACHINE:X86 Debug\Cube.obj
+         Debug\glew.obj
+         Debug\Main.obj
+         Debug\Scene.obj
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+         PGG_Lab8_Textures_Complete.vcxproj -> \\bournemouth.ac.uk\data\Staff\Home\lmcloughlin\Visual Studio 2012\Projects\PGG_Lab8_Textures_Complete\Debug\PGG_Lab8_Textures_Complete.exe
+     1>Done Building Project "\\bournemouth.ac.uk\data\Staff\Home\lmcloughlin\Visual Studio 2012\Projects\PGG_Lab8_Textures_Complete\PGG_Lab8_Textures_Complete\PGG_Lab8_Textures_Complete.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:09.85

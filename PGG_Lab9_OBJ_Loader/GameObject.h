@@ -3,6 +3,7 @@
 
 #include "Mesh.h"
 #include "Material.h"
+#include <vector>
 
 // The GameObject contains a mesh, a material and position / orientation information
 class GameObject

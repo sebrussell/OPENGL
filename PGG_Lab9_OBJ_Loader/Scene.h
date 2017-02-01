@@ -8,6 +8,7 @@
 #include <gtc/type_ptr.hpp> // This one gives us access to a utility function which makes sending data to OpenGL nice and easy
 
 #include <string>
+#include <memory>
 
 // The scene contains objects, the camera and light
 // It is responsible for coordinating these things
@@ -36,8 +37,10 @@ public:
 protected:
 
 	// Currently one object, this could be a list of objects!
-	GameObject *_model;
+	//GameObject *_model;
 		
+	std::vector<GameObject*> _models;
+
 	// This matrix represents the camera's position and orientation
 	glm::mat4 _viewMatrix;
 	

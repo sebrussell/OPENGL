@@ -251,6 +251,7 @@ unsigned int Material::LoadTexture( std::string filename )
 
 void Material::SetMatrices(glm::mat4 modelMatrix, glm::mat4 invModelMatrix, glm::mat4 viewMatrix, glm::mat4 projMatrix)
 {
+	glUseProgram(_shaderProgram);
 		// Send matrices and uniforms
 	glUniformMatrix4fv(_shaderModelMatLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix) );
 	glUniformMatrix4fv(_shaderInvModelMatLocation, 1, GL_TRUE, glm::value_ptr(invModelMatrix) );

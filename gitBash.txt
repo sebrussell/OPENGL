@@ -1,0 +1,5 @@
+cd "C:\Users\sebru_000\Desktop\OPENGL"
+git add -A
+git commit -m "Spawning lots of objects"
+git push origin master
+exit

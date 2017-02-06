@@ -33,7 +33,7 @@ void GameObject::Update( float deltaTs )
 
 void GameObject::Draw(glm::mat4 viewMatrix, glm::mat4 projMatrix)
 {
-	if (_position.x < 10 && _position.y < 10 && _position.x < 10)
+	if (_position.x < 10 && _position.z < 10)
 	{
 		if (_mesh != NULL)
 		{

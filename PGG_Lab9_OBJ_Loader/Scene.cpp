@@ -17,19 +17,17 @@ Scene::Scene()
 
 	// Set up a projection matrix
 	_projMatrix = glm::perspective(45.0f, 1.0f, 0.1f, 100.0f);
-
-
-
-
+	
 	// Set up your scene here
 
 	// Position of the light, in world-space
-	_lightPosition = glm::vec3(10,10,0);
+	_lightPosition = glm::vec3(10,50,0);
 
 	// Create a game object
 	// This needs a material and a mesh
 
-	
+	//Position of camera
+	_cameraPosition = glm::vec3(0, 0, -3.5f);
 
 	for (size_t y = 0; y < 40; y++)
 	{
@@ -61,7 +59,7 @@ Scene::Scene()
 	// This is multiplied by all the light components (ambient, diffuse, specular)
 	// Note that the diffuse colour set with the line above will be multiplied by the texture colour
 	// If you want just the texture colour, use modelMaterial->SetDiffuseColour( glm::vec3(1,1,1) );
-	modelMaterial->SetTexture("Image2.bmp");
+	modelMaterial->SetTexture("Image1.bmp");
 	// Need to tell the material the light's position
 	// If you change the light's position you need to call this again
 	modelMaterial->SetLightPosition(_lightPosition);
@@ -73,12 +71,14 @@ Scene::Scene()
 	modelMesh->LoadOBJ("teapot3.obj");
 	// Tell the game object to use this mesh
 
+	modelMaterial->SetDiffuseColour(glm::vec3(1, 1, 1));
 
 	for (size_t y = 0; y < _models.size(); y++)
 	{
 		for (size_t x = 0; x < _models[y].size(); x++)
 		{
-			modelMaterial->SetDiffuseColour(glm::vec3(0.8 / x, 0.1 * y, 0.1));
+			//modelMaterial->SetDiffuseColour(glm::vec3(0.8 / x, 0.1 * y, 0.1));
+			
 			_models[y][x]->SetMaterial(modelMaterial);
 			_models[y][x]->SetMesh(modelMesh);
 			_models[y][x]->SetRotation(1 * (x + 1), 0, 0.01);
@@ -107,7 +107,7 @@ void Scene::Update( float deltaTs )
 	
 
 	// This updates the camera's position and orientation
-	_viewMatrix = glm::rotate( glm::rotate( glm::translate( glm::mat4(1.0f), glm::vec3(0,0,-3.5f) ), _cameraAngleX, glm::vec3(1,0,0) ), _cameraAngleY, glm::vec3(0,1,0) );
+	_viewMatrix = glm::rotate( glm::rotate( glm::translate( glm::mat4(1.0f), _cameraPosition ), _cameraAngleX, glm::vec3(1,0,0) ), _cameraAngleY, glm::vec3(0,1,0) );
 }
 
 void Scene::Draw()

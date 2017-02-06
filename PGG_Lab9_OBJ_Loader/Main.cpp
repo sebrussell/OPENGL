@@ -142,6 +142,7 @@ int main(int argc, char *argv[])
 	// These are controlled by the states of key presses
 	// They will be used to control the camera
 	bool cmdRotateLeft = false, cmdRotateRight = false, cmdRotateUp = false, cmdRotateDown = false;
+	bool aKeyDown = false, sKeyDown = false, dKeyDown = false, wKeyDown = false;
 
 
 	// We are now preparing for our main loop (also known as the 'game loop')
@@ -203,12 +204,16 @@ int main(int argc, char *argv[])
 					cmdRotateRight = true;
 					break;
 				case SDLK_a:
+					aKeyDown = true;
 					break;
 				case SDLK_d:
+					dKeyDown = true;
 					break;
 				case SDLK_w:
+					wKeyDown = true;
 					break;
 				case SDLK_s:
+					sKeyDown = true;
 					break;
 				}
 				break;
@@ -232,12 +237,16 @@ int main(int argc, char *argv[])
 					cmdRotateRight = false;
 					break;
 				case SDLK_a:
+					aKeyDown = false;
 					break;
 				case SDLK_d:
+					dKeyDown = false;
 					break;
 				case SDLK_w:
+					wKeyDown = false;
 					break;
 				case SDLK_s:
+					sKeyDown = false;
 					break;
 				}
 				break;
@@ -276,6 +285,23 @@ int main(int argc, char *argv[])
 		else if( cmdRotateDown &! cmdRotateUp )
 		{
 			myScene.ChangeCameraAngleX( -1.0f * deltaTs );
+		}
+
+		if (aKeyDown == true)
+		{
+			myScene.ChangeCameraPosition(glm::vec3(2, 0, 0) * deltaTs);
+		}
+		if (sKeyDown == true)
+		{
+			myScene.ChangeCameraPosition(glm::vec3(0, 0, -2) * deltaTs);
+		}
+		if (dKeyDown == true)
+		{
+			myScene.ChangeCameraPosition(glm::vec3(-2, 0, 0) * deltaTs);
+		}
+		if (wKeyDown == true)
+		{
+			myScene.ChangeCameraPosition(glm::vec3(0, 0, 2) * deltaTs);
 		}
 
 		// Update the scene

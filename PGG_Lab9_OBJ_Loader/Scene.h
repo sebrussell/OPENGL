@@ -27,6 +27,8 @@ public:
 	void ChangeCameraAngleX( float value ) { _cameraAngleX += value; }
 	void ChangeCameraAngleY( float value ) { _cameraAngleY += value; }
 
+	void ChangeCameraPosition(glm::vec3 _value) { _cameraPosition += _value; }
+
 	// Calls update on all objects in the scene
 	void Update( float deltaTs );
 
@@ -52,6 +54,7 @@ protected:
 
 	// Position of the single point-light in the scene
 	glm::vec3 _lightPosition;
+	glm::vec3 _cameraPosition;
 
 
 };

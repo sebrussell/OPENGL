@@ -21,7 +21,8 @@ Scene::Scene()
 	// Set up your scene here
 
 	// Position of the light, in world-space
-	_lightPosition = glm::vec3(10,50,0);
+	//_lightPosition = glm::vec3(10,50,0);
+	_lights.push_back(Light(10, 50, 0));
 
 	// Create a game object
 	// This needs a material and a mesh
@@ -62,7 +63,9 @@ Scene::Scene()
 	modelMaterial->SetTexture("Image1.bmp");
 	// Need to tell the material the light's position
 	// If you change the light's position you need to call this again
-	modelMaterial->SetLightPosition(_lightPosition);
+	//modelMaterial->SetLightPosition(_lightPosition);
+	modelMaterial->SetLightPosition(_lights);
+
 	// Tell the game object to use this material
 
 	// The mesh is the geometry for the object

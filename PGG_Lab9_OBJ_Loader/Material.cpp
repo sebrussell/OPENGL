@@ -264,8 +264,10 @@ void Material::Apply()
 {
 	glUseProgram( _shaderProgram );
 
-	glUniform4fv( _shaderWSLightPosLocation, 1, glm::value_ptr(_lightPosition) );
-	
+	//glUniform4fv( _shaderWSLightPosLocation, 1, glm::value_ptr(_lightPosition) );
+	//glUniform4fv(_shaderWSLightPosLocation, _lights.size(), reinterpret_cast<GLfloat *>(_lights.data()));
+	glUniform3dv(glGetUniformLocation(_shaderProgram, "lightPosition"), _lights.size(), glm::value_ptr(_lights[0].m_position));
+
 	glUniform3fv( _shaderEmissiveColLocation, 1, glm::value_ptr(_emissiveColour) );
 	glUniform3fv( _shaderDiffuseColLocation, 1, glm::value_ptr(_diffuseColour) );
 	glUniform3fv( _shaderSpecularColLocation, 1, glm::value_ptr(_specularColour) );

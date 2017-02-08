@@ -1,2 +1,3 @@
 https://www.youtube.com/watch?v=y-ITpWiwqr8
 http://in2gpu.com/2015/02/27/create-a-game-engine-part-ii-preparing-opengl/
+http://archive.gamedev.net/archive/reference/programming/features/superquadric/page2.html

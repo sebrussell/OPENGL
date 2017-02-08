@@ -1,5 +1,6 @@
 
 #include "GameObject.h"
+#include "Light.h"
 
 // The GLM library contains vector and matrix functions and classes for us to use
 // They are designed to easily work with OpenGL!
@@ -53,7 +54,10 @@ protected:
 	float _cameraAngleX, _cameraAngleY;
 
 	// Position of the single point-light in the scene
-	glm::vec3 _lightPosition;
+	//glm::vec3 _lightPosition;
+	std::vector<Light> _lights;
+
+
 	glm::vec3 _cameraPosition;
 
 

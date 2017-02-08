@@ -4,7 +4,10 @@
 
 #include <string>
 #include <glm.hpp>
+#include <gtc\type_ptr.hpp>
 #include "glew.h"
+#include "Light.h"
+#include <vector>
 
 // Encapsulates shaders and textures
 class Material
@@ -26,7 +29,7 @@ public:
 	void SetSpecularColour( glm::vec3 input ) { _specularColour = input;}
 
 	// Set light position in world space
-	void SetLightPosition( glm::vec3 input ) { _lightPosition = input;}
+	void SetLightPosition( std::vector<Light> _input ) { _lights = _input;}
 
 
 	// Sets texture
@@ -55,10 +58,13 @@ protected:
 	int _shaderDiffuseColLocation, _shaderEmissiveColLocation, _shaderSpecularColLocation;
 	int _shaderWSLightPosLocation;
 	int _shaderTex1SamplerLocation;
+	int _lightPositions; 
 
 	// Local store of material properties to be sent to the shader
 	glm::vec3 _emissiveColour, _diffuseColour, _specularColour;
-	glm::vec3 _lightPosition;
+
+	//glm::vec3 _lightPosition;
+	std::vector<Light> _lights;
 
 	// Loads a .bmp from file
 	unsigned int LoadTexture( std::string filename );

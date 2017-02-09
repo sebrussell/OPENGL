@@ -21,8 +21,8 @@ Scene::Scene()
 	// Set up your scene here
 
 	// Position of the light, in world-space
-	//_lightPosition = glm::vec3(10,50,0);
-	_lights.push_back(Light(10, 50, 0));
+	
+	
 
 	// Create a game object
 	// This needs a material and a mesh
@@ -64,6 +64,12 @@ Scene::Scene()
 	// Need to tell the material the light's position
 	// If you change the light's position you need to call this again
 	//modelMaterial->SetLightPosition(_lightPosition);
+
+	for (size_t i = 0; i < modelMaterial->GetLightAmount(); i++)
+	{
+		_lights.push_back(new Light(10 * i, 50, 0));
+	}
+
 	modelMaterial->SetLightPosition(_lights);
 
 	// Tell the game object to use this material
@@ -111,6 +117,8 @@ void Scene::Update( float deltaTs )
 
 	// This updates the camera's position and orientation
 	_viewMatrix = glm::rotate( glm::rotate( glm::translate( glm::mat4(1.0f), _cameraPosition ), _cameraAngleX, glm::vec3(1,0,0) ), _cameraAngleY, glm::vec3(0,1,0) );
+
+	//_viewMatrix = glm::rotate(glm::translate(glm::rotate(glm::mat4(1.0f), _cameraAngleX, glm::vec3(1, 0, 0)), _cameraPosition), _cameraAngleY, glm::vec3(0, 1, 0));
 }
 
 void Scene::Draw()

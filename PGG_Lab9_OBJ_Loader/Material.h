@@ -18,20 +18,20 @@ public:
 
 	// Loads shaders from file
 	// Returns false if there was an error - it will also print out messages to console
-	bool LoadShaders( std::string vertFilename, std::string fragFilename );
+	bool LoadShaders(std::string vertFilename, std::string fragFilename);
 
 	// For setting the standard matrices needed by the shader
 	void SetMatrices(glm::mat4 modelMatrix, glm::mat4 invModelMatrix, glm::mat4 viewMatrix, glm::mat4 projMatrix);
-	
+
 	// For setting material properties
-	void SetEmissiveColour( glm::vec3 input ) { _emissiveColour = input;}
-	void SetDiffuseColour( glm::vec3 input ) { _diffuseColour = input;}
-	void SetSpecularColour( glm::vec3 input ) { _specularColour = input;}
+	void SetEmissiveColour(glm::vec3 input) { _emissiveColour = input; }
+	void SetDiffuseColour(glm::vec3 input) { _diffuseColour = input; }
+	void SetSpecularColour(glm::vec3 input) { _specularColour = input; }
 
 	// Set light position in world space
-	void SetLightPosition( std::vector<Light> _input ) { _lights = _input;}
+	void SetLightPosition(std::vector<Light*> _lights);
 
-
+	int GetLightAmount() { return lightAmount; }
 	// Sets texture
 	// This applies to ambient, diffuse and specular colours
 	// If you want textures for anything else, you'll need to do that yourself ;)
@@ -41,6 +41,13 @@ public:
 	void Apply();
 
 protected:
+
+	const int lightAmount = 10;
+	Light m_lights[10];
+	glm::vec4 _lightPositions[10];
+
+	
+	
 
 	// Utility function
 	bool CheckShaderCompiled( GLint shader );
@@ -58,13 +65,15 @@ protected:
 	int _shaderDiffuseColLocation, _shaderEmissiveColLocation, _shaderSpecularColLocation;
 	int _shaderWSLightPosLocation;
 	int _shaderTex1SamplerLocation;
-	int _lightPositions; 
+
+	int _lightShaderPositions; 
+	int _lightShaderColour;
 
 	// Local store of material properties to be sent to the shader
 	glm::vec3 _emissiveColour, _diffuseColour, _specularColour;
 
 	//glm::vec3 _lightPosition;
-	std::vector<Light> _lights;
+	
 
 	// Loads a .bmp from file
 	unsigned int LoadTexture( std::string filename );

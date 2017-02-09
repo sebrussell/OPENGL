@@ -1,8 +1,7 @@
 ﻿  Scene.cpp
-c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(87): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(87): warning C4244: 'argument': conversion from 'std::size_t' to 'float', possible loss of data
-c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(88): warning C4244: 'argument': conversion from 'std::size_t' to 'float', possible loss of data
-  Material.cpp
-  Generating Code...
+c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(68): warning C4018: '<': signed/unsigned mismatch
+c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(93): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(93): warning C4244: 'argument': conversion from 'std::size_t' to 'float', possible loss of data
+c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(94): warning C4244: 'argument': conversion from 'std::size_t' to 'float', possible loss of data
   PGG_Lab9_OBJ_Loader.vcxproj -> C:\Users\sebru_000\Desktop\OPENGL\Debug\PGG_Lab9_OBJ_Loader.exe
   PGG_Lab9_OBJ_Loader.vcxproj -> C:\Users\sebru_000\Desktop\OPENGL\Debug\PGG_Lab9_OBJ_Loader.pdb (Full PDB)

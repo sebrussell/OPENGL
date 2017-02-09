@@ -14,9 +14,10 @@ uniform vec4 worldSpaceLightPos = {1,0.0,1,1};
 
 // These per-vertex outputs must correspond to the per-fragment inputs in the fragment shader
 out vec3 vNormalV;
-out vec3 eyeSpaceLightPosV;
+//out vec3 eyeSpaceLightPosV;
 out vec3 eyeSpaceVertPosV;
 out vec2 texCoord;
+out mat4 _viewMat;
 
 void main()
 {
@@ -26,12 +27,14 @@ void main()
 	// Vector from eye to vertex position, in eye-space
 	eyeSpaceVertPosV = vec3(viewMat * modelMat * vPosition);
 	// Vector from vertex position to light position, in eye-space
-	eyeSpaceLightPosV = vec3(viewMat * worldSpaceLightPos);
+	//eyeSpaceLightPosV = vec3(viewMat * worldSpaceLightPos);
 
 	// Vertex normal, in eye-space
 	vNormalV = mat3(viewMat * modelMat) * vNormalIn;
 
 	// Pass through the texture coordinate
 	texCoord = vTexCoordIn;
+
+	_viewMat = viewMat;
 }
 

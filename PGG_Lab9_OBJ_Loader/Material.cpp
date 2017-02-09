@@ -179,6 +179,9 @@ bool Material::LoadShaders( std::string vertFilename, std::string fragFilename )
 	_shaderSpecularColLocation = glGetUniformLocation( _shaderProgram, "specularColour" );
 	_shaderWSLightPosLocation = glGetUniformLocation( _shaderProgram, "worldSpaceLightPos" );
 
+	_lightShaderPositions = glGetUniformLocation(_shaderProgram, "lightPosition");
+	_lightShaderColour = glGetUniformLocation(_shaderProgram, "ambientColour");
+
 	_shaderTex1SamplerLocation = glGetUniformLocation( _shaderProgram, "tex1" );
 
 	return true;
@@ -264,9 +267,13 @@ void Material::Apply()
 {
 	glUseProgram( _shaderProgram );
 
+
 	//glUniform4fv( _shaderWSLightPosLocation, 1, glm::value_ptr(_lightPosition) );
 	//glUniform4fv(_shaderWSLightPosLocation, _lights.size(), reinterpret_cast<GLfloat *>(_lights.data()));
-	glUniform3dv(glGetUniformLocation(_shaderProgram, "lightPosition"), _lights.size(), glm::value_ptr(_lights[0].m_position));
+	//glUniform3fv(_lightShaderPositions, lightAmount * 3, glm::value_ptr(_lightPositions[0]));
+
+	glUniform3fv(_lightShaderPositions, lightAmount * 3, glm::value_ptr(m_lights[0].m_position));
+	glUniform3fv(_lightShaderColour, lightAmount * 3, glm::value_ptr(m_lights[0].m_colour));
 
 	glUniform3fv( _shaderEmissiveColLocation, 1, glm::value_ptr(_emissiveColour) );
 	glUniform3fv( _shaderDiffuseColLocation, 1, glm::value_ptr(_diffuseColour) );
@@ -275,4 +282,13 @@ void Material::Apply()
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(_shaderTex1SamplerLocation,0);
 	glBindTexture(GL_TEXTURE_2D, _texture1);
+}
+
+void Material::SetLightPosition(std::vector<Light*> _lights)
+{	
+	for (size_t i = 0; i < _lights.size(); i++)
+	{
+		m_lights[i] = *_lights[i];
+		_lightPositions[i] = _lights[i]->m_position;
+	}
 }

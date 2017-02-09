@@ -55,7 +55,7 @@ protected:
 
 	// Position of the single point-light in the scene
 	//glm::vec3 _lightPosition;
-	std::vector<Light> _lights;
+	std::vector<Light*> _lights;
 
 
 	glm::vec3 _cameraPosition;

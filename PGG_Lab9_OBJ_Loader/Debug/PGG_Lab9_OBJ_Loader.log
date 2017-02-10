@@ -1,7 +1,33 @@
 ﻿  Scene.cpp
-c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(68): warning C4018: '<': signed/unsigned mismatch
-c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(93): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(93): warning C4244: 'argument': conversion from 'std::size_t' to 'float', possible loss of data
-c:\users\sebru_000\desktop\opengl\pgg_lab9_obj_loader\scene.cpp(94): warning C4244: 'argument': conversion from 'std::size_t' to 'float', possible loss of data
-  PGG_Lab9_OBJ_Loader.vcxproj -> C:\Users\sebru_000\Desktop\OPENGL\Debug\PGG_Lab9_OBJ_Loader.exe
-  PGG_Lab9_OBJ_Loader.vcxproj -> C:\Users\sebru_000\Desktop\OPENGL\Debug\PGG_Lab9_OBJ_Loader.pdb (Full PDB)
+w:\opengl\pgg_lab9_obj_loader\scene.cpp(71): warning C4018: '<': signed/unsigned mismatch
+w:\opengl\pgg_lab9_obj_loader\scene.cpp(98): warning C4305: 'argument': truncation from 'double' to 'float'
+w:\opengl\pgg_lab9_obj_loader\scene.cpp(98): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+w:\opengl\pgg_lab9_obj_loader\scene.cpp(99): warning C4244: 'argument': conversion from 'size_t' to 'float', possible loss of data
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(901): error C2664: 'GameObject::GameObject(const GameObject &)': cannot convert argument 1 from 'GameObject *' to 'const GameObject &'
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(901): note: Reason: cannot convert from 'GameObject *' to 'const GameObject'
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(901): note: No constructor could take the source type, or constructor overload resolution was ambiguous
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(971): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<GameObject>(GameObject &&)' being compiled
+          with
+          [
+              _Ty=GameObject
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(971): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<GameObject>(GameObject &&)' being compiled
+          with
+          [
+              _Ty=GameObject
+          ]
+  w:\opengl\pgg_lab9_obj_loader\scene.cpp(49): note: see reference to function template instantiation 'std::shared_ptr<GameObject> std::make_shared<GameObject,GameObject*>(GameObject *&&)' being compiled
+c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(901): error C2664: 'Light::Light(const Light &)': cannot convert argument 1 from 'Light *' to 'const Light &'
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(901): note: Reason: cannot convert from 'Light *' to 'const Light'
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(901): note: No constructor could take the source type, or constructor overload resolution was ambiguous
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(971): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Light>(Light &&)' being compiled
+          with
+          [
+              _Ty=Light
+          ]
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\memory(971): note: see reference to function template instantiation 'std::_Ref_count_obj<_Ty>::_Ref_count_obj<Light>(Light &&)' being compiled
+          with
+          [
+              _Ty=Light
+          ]
+  w:\opengl\pgg_lab9_obj_loader\scene.cpp(74): note: see reference to function template instantiation 'std::shared_ptr<Light> std::make_shared<Light,Light*>(Light *&&)' being compiled

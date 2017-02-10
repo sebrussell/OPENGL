@@ -38,7 +38,7 @@ void main()
 
 	vec3 texColour = vec3(texture(tex1,texCoord));
 
-	for(int i = 0; i < 2; i++)
+	for(int i = 0; i < 10; i++)
 	{
 		vec3 eyeSpaceLightPosV = vec3(_viewMat * lightPosition[i]);
 
@@ -64,5 +64,7 @@ void main()
 		tempAmbient += ambientColour[i];
 	}
 	fragColour = vec4( emissiveColour + texColour*(tempAmbient + diffuse + specular), alpha);
+	//fragColour -= fragColour;
+	//fragColour += vec4(ambientColour[2], 1);
 	
 }

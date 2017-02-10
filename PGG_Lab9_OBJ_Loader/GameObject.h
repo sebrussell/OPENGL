@@ -5,6 +5,7 @@
 #include "Material.h"
 #include <vector>
 
+
 // The GameObject contains a mesh, a material and position / orientation information
 class GameObject
 {
@@ -13,8 +14,11 @@ public:
 	GameObject();
 	~GameObject();
 
-	void SetMesh(Mesh *input) {_mesh = input;}
-	void SetMaterial(Material *input) {_material = input;}
+	//void SetMesh(Mesh *input) {_mesh = input;}
+	//void SetMaterial(Material *input) {_material = input;}
+
+	void SetMesh(std::shared_ptr<Mesh> input) { _mesh = input; }
+	void SetMaterial(std::shared_ptr<Material> input) { _material = input; }
 	
 	void SetPosition( float posX, float posY, float posZ ) {_position.x = posX; _position.y = posY; _position.z = posZ;}
 
@@ -29,9 +33,14 @@ public:
 protected:
 
 	// The actual model geometry
-	Mesh *_mesh;
+	//Mesh *_mesh;
 	// The material contains the shader
-	Material *_material;
+	//Material *_material;
+
+	
+	std::shared_ptr<Mesh> _mesh;
+
+	std::shared_ptr<Material> _material;
 
 	// Matrix for the position and orientation of the game object
 	glm::mat4 _modelMatrix;

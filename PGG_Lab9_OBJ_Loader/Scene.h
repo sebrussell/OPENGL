@@ -28,7 +28,7 @@ public:
 	void ChangeCameraAngleX( float value ) { _cameraAngleX += value; }
 	void ChangeCameraAngleY( float value ) { _cameraAngleY += value; }
 
-	void ChangeCameraPosition(glm::vec3 _value) { _cameraPosition += _value; }
+	void ChangeCameraPosition(glm::vec3 _value) { _cameraPosition = _value; }
 
 	// Calls update on all objects in the scene
 	void Update( float deltaTs );
@@ -42,7 +42,8 @@ protected:
 	// Currently one object, this could be a list of objects!
 	//GameObject *_model;
 		
-	std::vector<std::vector<GameObject*>> _models;
+	//std::vector<std::vector<GameObject*>> _models;
+	std::vector<std::vector<std::shared_ptr<GameObject>>> _models;
 
 	// This matrix represents the camera's position and orientation
 	glm::mat4 _viewMatrix;
@@ -55,7 +56,8 @@ protected:
 
 	// Position of the single point-light in the scene
 	//glm::vec3 _lightPosition;
-	std::vector<Light*> _lights;
+	//std::vector<Light*> _lights;
+	std::vector<std::shared_ptr<Light>> _lights;
 
 
 	glm::vec3 _cameraPosition;

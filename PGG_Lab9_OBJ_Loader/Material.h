@@ -8,6 +8,7 @@
 #include "glew.h"
 #include "Light.h"
 #include <vector>
+#include <memory>
 
 // Encapsulates shaders and textures
 class Material
@@ -29,7 +30,8 @@ public:
 	void SetSpecularColour(glm::vec3 input) { _specularColour = input; }
 
 	// Set light position in world space
-	void SetLightPosition(std::vector<Light*> _lights);
+	//void SetLightPosition(std::vector<Light*> _lights);
+	void SetLightPosition(std::vector<std::shared_ptr<Light>> _lights);
 
 	int GetLightAmount() { return lightAmount; }
 	// Sets texture
@@ -45,6 +47,7 @@ protected:
 	const int lightAmount = 10;
 	Light m_lights[10];
 	glm::vec4 _lightPositions[10];
+	std::vector<glm::vec3> _lightColours;
 
 	
 	

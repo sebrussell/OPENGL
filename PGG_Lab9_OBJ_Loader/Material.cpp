@@ -272,8 +272,8 @@ void Material::Apply()
 	//glUniform4fv(_shaderWSLightPosLocation, _lights.size(), reinterpret_cast<GLfloat *>(_lights.data()));
 	//glUniform3fv(_lightShaderPositions, lightAmount * 3, glm::value_ptr(_lightPositions[0]));
 
-	glUniform3fv(_lightShaderPositions, lightAmount * 3, glm::value_ptr(m_lights[0].m_position));
-	glUniform3fv(_lightShaderColour, lightAmount * 3, glm::value_ptr(m_lights[0].m_colour));
+	glUniform4fv(_lightShaderPositions, lightAmount, glm::value_ptr(_lightPositions[0]));
+	glUniform3fv(_lightShaderColour, lightAmount, (GLfloat*)&_lightColours[0]);
 
 	glUniform3fv( _shaderEmissiveColLocation, 1, glm::value_ptr(_emissiveColour) );
 	glUniform3fv( _shaderDiffuseColLocation, 1, glm::value_ptr(_diffuseColour) );
@@ -284,11 +284,14 @@ void Material::Apply()
 	glBindTexture(GL_TEXTURE_2D, _texture1);
 }
 
-void Material::SetLightPosition(std::vector<Light*> _lights)
+void Material::SetLightPosition(std::vector<std::shared_ptr<Light>> _lights)
 {	
+	_lightColours.resize(10);
+
 	for (size_t i = 0; i < _lights.size(); i++)
 	{
 		m_lights[i] = *_lights[i];
 		_lightPositions[i] = _lights[i]->m_position;
+		_lightColours.at(i) = glm::vec3(0.01f, 0, 0);
 	}
 }

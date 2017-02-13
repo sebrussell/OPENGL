@@ -286,12 +286,12 @@ void Material::Apply()
 
 void Material::SetLightPosition(std::vector<std::shared_ptr<Light>> _lights)
 {	
-	_lightColours.resize(10);
+	_lightPositions.resize(_lights.size());
+	_lightColours.resize(_lights.size());
 
 	for (size_t i = 0; i < _lights.size(); i++)
 	{
-		m_lights[i] = *_lights[i];
-		_lightPositions[i] = _lights[i]->m_position;
-		_lightColours.at(i) = glm::vec3(0.01f, 0, 0);
+		_lightPositions.at(i) = _lights[i]->m_position;
+		_lightColours.at(i) = _lights[i]->m_colour;
 	}
 }

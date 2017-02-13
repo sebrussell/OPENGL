@@ -62,5 +62,7 @@ protected:
 
 	glm::vec3 _cameraPosition;
 
+	double _viewDistance;
+
 
 };

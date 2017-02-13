@@ -289,7 +289,7 @@ int main(int argc, char *argv[])
 
 		if (aKeyDown == true)
 		{
-			myScene.ChangeCameraPosition(glm::vec3(2, 0, 0) * deltaTs);
+			myScene.ChangeCameraPosition(glm::vec3(2, 0, 2) * deltaTs);
 		}
 		if (sKeyDown == true)
 		{

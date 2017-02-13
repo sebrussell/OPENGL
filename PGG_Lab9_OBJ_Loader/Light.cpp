@@ -20,7 +20,7 @@ Light::Light(int x, int y, int z)
 	m_position.w = 1;
 
 	m_colour.x = 0;
-	m_colour.y = 0;
+	m_colour.y = 0.05;
 	m_colour.z = 0;
 }
 

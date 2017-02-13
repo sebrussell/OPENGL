@@ -45,8 +45,7 @@ public:
 protected:
 
 	const int lightAmount = 10;
-	Light m_lights[10];
-	glm::vec4 _lightPositions[10];
+	std::vector<glm::vec4> _lightPositions;
 	std::vector<glm::vec3> _lightColours;
 
 	

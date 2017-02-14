@@ -21,6 +21,8 @@ Material::Material()
 	_shaderTex1SamplerLocation = 0;
 
 	_texture1 = 0;
+
+	lightAmount = 0;
 }
 
 Material::~Material()
@@ -274,6 +276,7 @@ void Material::Apply()
 	glUniform1iv(_shaderLightCutOff, lightAmount, (GLint*)&m_lightCutOffPoint[0]);
 	glUniform1fv(_shaderLightAngle, lightAmount, (GLfloat*)&m_lightAngle[0]);
 	glUniform1iv(_shaderLightType, lightAmount, (GLint*)&m_lightType[0]);
+	glUniform1i(_shaderLightAmount, lightAmount);
 
 	glUniform3fv(_shaderLightColLocation, lightAmount, (GLfloat*)&m_lightColour[0]);
 	glUniform3fv(_shaderEmissiveColLocation, lightAmount, (GLfloat*)&m_lightEmissiveColour[0]);
@@ -288,6 +291,7 @@ void Material::Apply()
 
 void Material::SetLightPosition(std::vector<std::shared_ptr<Light>> _lights)
 {	
+	lightAmount = _lights.size();
 	m_lightPositions.resize(_lights.size());
 	m_lightDirection.resize(_lights.size());
 	m_lightColour.resize(_lights.size());

@@ -14,7 +14,7 @@ Scene::Scene()
 	// This represents the camera's orientation and position
 	_viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 1.0f, -3.5f));
 
-	_viewDistance = 20;
+	_viewDistance = 50;
 
 	// Set up a projection matrix
 	_projMatrix = glm::perspective(45.0f, 1.0f, 0.1f, 100.0f);
@@ -59,10 +59,17 @@ Scene::Scene()
 	// If you change the light's position you need to call this again
 	//modelMaterial->SetLightPosition(_lightPosition);
 
-	for (size_t i = 0; i < modelMaterial->GetLightAmount(); i++)
+	amountOfLights = 2;
+
+	for (size_t i = 0; i < amountOfLights; i++)
 	{
 		_lights.push_back(std::make_shared<Light>());
 	}
+
+	_lights[1]->m_position.x = 10;
+	_lights[1]->m_lightColour.y = 1;
+	_lights[0]->m_lightCutoff = 100;
+
 
 
 	modelMaterial->SetLightPosition(_lights);
@@ -100,20 +107,39 @@ void Scene::Update(float deltaTs)
 {
 	// Update the game object (this is currently hard-coded to rotate)
 
+	int randNumber = rand() % 3;
+
+	if (randNumber == 0)
+	{
+		_lights[1]->m_lightColour = glm::vec3(1, 0, 0);
+	}
+	else if (randNumber == 1)
+	{
+		_lights[1]->m_lightColour = glm::vec3(0, 1, 0);
+	}
+	else
+	{
+		_lights[1]->m_lightColour = glm::vec3(0, 0, 1);
+	}
+
+
 	for (size_t y = 0; y < _models.size(); y++)
 	{
 		for (size_t x = 0; x < _models[y].size(); x++)
 		{			
 			_models[y][x]->Update(deltaTs * (y + 1), _viewMatrix);
+			_models[y][x]->GetMaterial()->SetLightPosition(_lights);
 		}
 	}
 
+	
 
 	// This updates the camera's position and orientation
 
 	_viewMatrix = glm::rotate(glm::mat4(1), _cameraPosition.x, glm::vec3(0, 1, 0)) * _viewMatrix;
 	_viewMatrix = glm::translate(glm::mat4(1), glm::vec3(0, 0, _cameraPosition.z)) * _viewMatrix;
 
+	//modelMaterial->SetLightPosition(_lights);
 
 	_cameraPosition = glm::vec3();  //reset the current change in camera position
 }

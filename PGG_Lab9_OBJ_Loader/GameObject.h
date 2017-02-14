@@ -20,6 +20,8 @@ public:
 
 	void SetMesh(std::shared_ptr<Mesh> input) { _mesh = input; }
 	void SetMaterial(std::shared_ptr<Material> input) { _material = input; }
+
+	std::shared_ptr<Material> GetMaterial() { return _material; }
 	
 	void SetPosition( float posX, float posY, float posZ ) {_position.x = posX; _position.y = posY; _position.z = posZ;}
 

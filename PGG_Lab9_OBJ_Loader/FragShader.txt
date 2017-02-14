@@ -9,7 +9,7 @@ in mat4 _viewMat;
 
 
 // Input uniform data - these have values that will be the same for every fragment
-uniform int lightAmount = 1;
+uniform int lightAmount;
 uniform float shininess = 100.0f;
 uniform float alpha = 1.0f;
 
@@ -58,6 +58,7 @@ void main()
 		if(dist < lightCutOff[i])
 		{
 		  float attn = 1.0 / (1.0 + 0.1*dist + 0.01*dist*dist);
+		  attn = 1;
 
 		  // Calculate diffuse lighting
 		  tempDiffuse += (diffuseColour[i] * lightColour[i] * max( dot( normal, lightDir ), 0)) * attn;
@@ -70,8 +71,6 @@ void main()
 		  // If you want a separate texture for specular you will need to change this
 		  tempEmissive += emissiveColour[i] *attn;
 		  tempAmbient += ambientColour[i] *attn;
-
-
 		
 		}		
 	}

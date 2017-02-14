@@ -64,5 +64,6 @@ protected:
 
 	double _viewDistance;
 
+	int amountOfLights;
 
 };

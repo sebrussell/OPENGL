@@ -33,7 +33,7 @@ public:
 	//void SetLightPosition(std::vector<Light*> _lights);
 	void SetLightPosition(std::vector<std::shared_ptr<Light>> _lights);
 
-	int GetLightAmount() { return lightAmount; }
+	void SetLightAmount(int _amount) { lightAmount = _amount; }
 	// Sets texture
 	// This applies to ambient, diffuse and specular colours
 	// If you want textures for anything else, you'll need to do that yourself ;)
@@ -43,8 +43,8 @@ public:
 	void Apply();
 
 protected:
-
-	const int lightAmount = 2;
+	
+	int lightAmount;
 
 	std::vector<glm::vec4> m_lightPositions;
 	std::vector<glm::vec3> m_lightDirection;

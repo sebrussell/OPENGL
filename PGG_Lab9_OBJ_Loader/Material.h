@@ -25,9 +25,9 @@ public:
 	void SetMatrices(glm::mat4 modelMatrix, glm::mat4 invModelMatrix, glm::mat4 viewMatrix, glm::mat4 projMatrix);
 
 	// For setting material properties
-	void SetEmissiveColour(glm::vec3 input) { _emissiveColour = input; }
-	void SetDiffuseColour(glm::vec3 input) { _diffuseColour = input; }
-	void SetSpecularColour(glm::vec3 input) { _specularColour = input; }
+	//void SetEmissiveColour(glm::vec3 input) { _emissiveColour = input; }
+	//void SetDiffuseColour(glm::vec3 input) { _diffuseColour = input; }
+	//void SetSpecularColour(glm::vec3 input) { _specularColour = input; }
 
 	// Set light position in world space
 	//void SetLightPosition(std::vector<Light*> _lights);
@@ -44,11 +44,18 @@ public:
 
 protected:
 
-	const int lightAmount = 10;
-	std::vector<glm::vec4> _lightPositions;
-	std::vector<glm::vec3> _lightColours;
+	const int lightAmount = 2;
 
-	
+	std::vector<glm::vec4> m_lightPositions;
+	std::vector<glm::vec3> m_lightDirection;
+	std::vector<glm::vec3> m_lightColour;
+	std::vector<glm::vec3> m_lightDiffuseColour;
+	std::vector<glm::vec3> m_lightAmbientColour;
+	std::vector<glm::vec3> m_lightSpecularColour;
+	std::vector<glm::vec3> m_lightEmissiveColour;
+	std::vector<int> m_lightCutOffPoint;
+	std::vector<float> m_lightAngle;
+	std::vector<int> m_lightType;
 	
 
 	// Utility function
@@ -64,18 +71,10 @@ protected:
 	int _shaderProjMatLocation;
 
 	// Location of Uniforms in the fragment shader
-	int _shaderDiffuseColLocation, _shaderEmissiveColLocation, _shaderSpecularColLocation;
-	int _shaderWSLightPosLocation;
+	int _shaderDiffuseColLocation, _shaderEmissiveColLocation, _shaderSpecularColLocation, _shaderAmbientColLocation, _shaderLightColLocation;
 	int _shaderTex1SamplerLocation;
-
-	int _lightShaderPositions; 
-	int _lightShaderColour;
-
-	// Local store of material properties to be sent to the shader
-	glm::vec3 _emissiveColour, _diffuseColour, _specularColour;
-
-	//glm::vec3 _lightPosition;
-	
+	int _shaderLightPosition, _shaderLightDirection, _shaderLightCutOff, _shaderLightAngle, _shaderLightType;
+	int _shaderLightAmount;
 
 	// Loads a .bmp from file
 	unsigned int LoadTexture( std::string filename );

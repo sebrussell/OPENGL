@@ -3,42 +3,43 @@
 // Input per-fragment data
 // These must correspond to the varying outputs from the vertex shader
 in vec3 vNormalV;
-//in vec3 eyeSpaceLightPosV;
 in vec3 eyeSpaceVertPosV;
 in vec2 texCoord;
 in mat4 _viewMat;
 
 
 // Input uniform data - these have values that will be the same for every fragment
-uniform vec3 lightColour = {0.8,0.8,0.8};
-uniform vec3 emissiveColour = {0,0,0};
-//uniform vec3 ambientColour  = {0.1f,0.1f,0.2f};
-uniform vec3 diffuseColour  = {1.0f,1.0f,1.0f};
-uniform vec3 specularColour = {1.0f,1.0f,1.0f};
-uniform float shininess     = 100.0f;
-uniform float alpha         = 1.0f;
+uniform int lightAmount = 1;
+uniform float shininess = 100.0f;
+uniform float alpha = 1.0f;
 
 uniform vec4 lightPosition[10];
+uniform vec3 lightDirection[10];
+uniform vec3 lightColour[10];
+uniform vec3 emissiveColour[10];
 uniform vec3 ambientColour[10];
+uniform vec3 diffuseColour[10];
+uniform vec3 specularColour[10];
+uniform int lightCutOff[10];
+uniform float lightAngle[10];
+uniform int lightType[10];
 
+uniform sampler2D tex1;
 
 // The output of the fragment shader is the fragment's colour
 out vec4 fragColour;
 
-// This is another input to allow us to access a texture
-uniform sampler2D tex1;
-
 
 void main()
-{
-	
+{	
 	vec3 tempAmbient = vec3(0); 
-	vec3 diffuse = vec3(0);
-	vec3 specular = vec3(0);
+	vec3 tempEmissive = vec3(0);
+	vec3 tempDiffuse = vec3(0);
+	vec3 tempSpecular = vec3(0);
 
 	vec3 texColour = vec3(texture(tex1,texCoord));
 
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < lightAmount; i++)
 	{
 		vec3 eyeSpaceLightPosV = vec3(_viewMat * lightPosition[i]);
 
@@ -51,20 +52,31 @@ void main()
 		// Vector half way between one to eye and one to light
 		vec3 halfVec = normalize( eyeDir + lightDir );
 
-		// Retrieve colour from texture
-		
-		// Calculate diffuse lighting
-		diffuse = diffuseColour * lightColour * max( dot( normal, lightDir ), 0);
-	
-		// Put specular lighting code here!
-		specular = vec3(0);
+		vec4 worldSpaceVertex = inverse(_viewMat) * vec4(eyeSpaceVertPosV, 1);
+		float dist = distance(worldSpaceVertex, lightPosition[i]);
 
-		// Final colour uses the texture colour for all components
-		// If you want a separate texture for specular you will need to change this
-		tempAmbient += ambientColour[i];
+		if(dist < lightCutOff[i])
+		{
+		  float attn = 1.0 / (1.0 + 0.1*dist + 0.01*dist*dist);
+
+		  // Calculate diffuse lighting
+		  tempDiffuse += (diffuseColour[i] * lightColour[i] * max( dot( normal, lightDir ), 0)) * attn;
+
+	
+		  // Put specular lighting code here!
+		  tempSpecular = vec3(0);
+
+		  // Final colour uses the texture colour for all components
+		  // If you want a separate texture for specular you will need to change this
+		  tempEmissive += emissiveColour[i] *attn;
+		  tempAmbient += ambientColour[i] *attn;
+
+
+		
+		}		
 	}
-	fragColour = vec4( emissiveColour + texColour*(tempAmbient + diffuse + specular), alpha);
-	//fragColour -= fragColour;
-	//fragColour += vec4(ambientColour[2], 1);
+
+	fragColour = vec4( tempEmissive + texColour*(tempAmbient + tempDiffuse + tempSpecular), alpha);
+
 	
 }

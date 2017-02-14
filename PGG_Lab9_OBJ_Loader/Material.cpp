@@ -16,7 +16,6 @@ Material::Material()
 
 	_shaderDiffuseColLocation = 0;
 	_shaderEmissiveColLocation = 0;
-	_shaderWSLightPosLocation = 0;
 	_shaderSpecularColLocation = 0;
 
 	_shaderTex1SamplerLocation = 0;
@@ -174,13 +173,19 @@ bool Material::LoadShaders( std::string vertFilename, std::string fragFilename )
 	_shaderViewMatLocation = glGetUniformLocation( _shaderProgram, "viewMat" );
 	_shaderProjMatLocation = glGetUniformLocation( _shaderProgram, "projMat" );
 		
-	_shaderDiffuseColLocation = glGetUniformLocation( _shaderProgram, "diffuseColour" );
-	_shaderEmissiveColLocation = glGetUniformLocation( _shaderProgram, "emissiveColour" );
-	_shaderSpecularColLocation = glGetUniformLocation( _shaderProgram, "specularColour" );
-	_shaderWSLightPosLocation = glGetUniformLocation( _shaderProgram, "worldSpaceLightPos" );
+	_shaderLightAmount = glGetUniformLocation(_shaderProgram, "lightAmount");
 
-	_lightShaderPositions = glGetUniformLocation(_shaderProgram, "lightPosition");
-	_lightShaderColour = glGetUniformLocation(_shaderProgram, "ambientColour");
+	_shaderLightColLocation = glGetUniformLocation(_shaderProgram, "lightColour");
+	_shaderEmissiveColLocation = glGetUniformLocation(_shaderProgram, "emissiveColour");
+	_shaderAmbientColLocation = glGetUniformLocation(_shaderProgram, "ambientColour");
+	_shaderDiffuseColLocation = glGetUniformLocation(_shaderProgram, "diffuseColour");
+	_shaderSpecularColLocation = glGetUniformLocation(_shaderProgram, "specularColour");
+
+	_shaderLightPosition = glGetUniformLocation(_shaderProgram, "lightPosition");
+	_shaderLightDirection = glGetUniformLocation(_shaderProgram, "lightDirection");
+	_shaderLightCutOff = glGetUniformLocation(_shaderProgram, "lightCutOff");
+	_shaderLightAngle = glGetUniformLocation(_shaderProgram, "lightAngle");
+	_shaderLightType = glGetUniformLocation(_shaderProgram, "lightType");
 
 	_shaderTex1SamplerLocation = glGetUniformLocation( _shaderProgram, "tex1" );
 
@@ -206,7 +211,6 @@ bool Material::CheckShaderCompiled( GLint shader )
 	}
 	return true;
 }
-
 
 unsigned int Material::LoadTexture( std::string filename )
 {
@@ -249,9 +253,6 @@ unsigned int Material::LoadTexture( std::string filename )
 	return texName;
 }
 
-
-
-
 void Material::SetMatrices(glm::mat4 modelMatrix, glm::mat4 invModelMatrix, glm::mat4 viewMatrix, glm::mat4 projMatrix)
 {
 	glUseProgram(_shaderProgram);
@@ -267,17 +268,18 @@ void Material::Apply()
 {
 	glUseProgram( _shaderProgram );
 
+	glUniform4fv(_shaderLightPosition, lightAmount, (GLfloat*)&m_lightPositions[0]);
+	glUniform3fv(_shaderLightDirection, lightAmount, (GLfloat*)&m_lightDirection[0]);
 
-	//glUniform4fv( _shaderWSLightPosLocation, 1, glm::value_ptr(_lightPosition) );
-	//glUniform4fv(_shaderWSLightPosLocation, _lights.size(), reinterpret_cast<GLfloat *>(_lights.data()));
-	//glUniform3fv(_lightShaderPositions, lightAmount * 3, glm::value_ptr(_lightPositions[0]));
+	glUniform1iv(_shaderLightCutOff, lightAmount, (GLint*)&m_lightCutOffPoint[0]);
+	glUniform1fv(_shaderLightAngle, lightAmount, (GLfloat*)&m_lightAngle[0]);
+	glUniform1iv(_shaderLightType, lightAmount, (GLint*)&m_lightType[0]);
 
-	glUniform4fv(_lightShaderPositions, lightAmount, glm::value_ptr(_lightPositions[0]));
-	glUniform3fv(_lightShaderColour, lightAmount, (GLfloat*)&_lightColours[0]);
-
-	glUniform3fv( _shaderEmissiveColLocation, 1, glm::value_ptr(_emissiveColour) );
-	glUniform3fv( _shaderDiffuseColLocation, 1, glm::value_ptr(_diffuseColour) );
-	glUniform3fv( _shaderSpecularColLocation, 1, glm::value_ptr(_specularColour) );
+	glUniform3fv(_shaderLightColLocation, lightAmount, (GLfloat*)&m_lightColour[0]);
+	glUniform3fv(_shaderEmissiveColLocation, lightAmount, (GLfloat*)&m_lightEmissiveColour[0]);
+	glUniform3fv(_shaderAmbientColLocation, lightAmount, (GLfloat*)&m_lightAmbientColour[0]);
+	glUniform3fv(_shaderDiffuseColLocation, lightAmount, (GLfloat*)&m_lightDiffuseColour[0]);
+	glUniform3fv(_shaderSpecularColLocation, lightAmount, (GLfloat*)&m_lightSpecularColour[0]);
 	
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(_shaderTex1SamplerLocation,0);
@@ -286,12 +288,28 @@ void Material::Apply()
 
 void Material::SetLightPosition(std::vector<std::shared_ptr<Light>> _lights)
 {	
-	_lightPositions.resize(_lights.size());
-	_lightColours.resize(_lights.size());
+	m_lightPositions.resize(_lights.size());
+	m_lightDirection.resize(_lights.size());
+	m_lightColour.resize(_lights.size());
+	m_lightDiffuseColour.resize(_lights.size());
+	m_lightAmbientColour.resize(_lights.size());
+	m_lightSpecularColour.resize(_lights.size());
+	m_lightEmissiveColour.resize(_lights.size());
+	m_lightCutOffPoint.resize(_lights.size());
+	m_lightAngle.resize(_lights.size());
+	m_lightType.resize(_lights.size());
 
 	for (size_t i = 0; i < _lights.size(); i++)
 	{
-		_lightPositions.at(i) = _lights[i]->m_position;
-		_lightColours.at(i) = _lights[i]->m_colour;
+		m_lightPositions.at(i) = _lights[i]->m_position;
+		m_lightDirection.at(i) = _lights[i]->m_lightDirection;
+		m_lightColour.at(i) = _lights[i]->m_lightColour;
+		m_lightDiffuseColour.at(i) = _lights[i]->m_diffuseColour;
+		m_lightAmbientColour.at(i) = _lights[i]->m_ambientColour;
+		m_lightSpecularColour.at(i) = _lights[i]->m_specularColour;
+		m_lightEmissiveColour.at(i) = _lights[i]->m_emissiveColour;
+		m_lightCutOffPoint.at(i) = _lights[i]->m_lightCutoff;
+		m_lightAngle.at(i) = _lights[i]->m_lightAngle;
+		m_lightType.at(i) = _lights[i]->m_lightType;
 	}
 }

@@ -61,9 +61,9 @@ Scene::Scene()
 
 	for (size_t i = 0; i < modelMaterial->GetLightAmount(); i++)
 	{
-		//_lights.push_back(new Light(10 * i, 50, 0));
-		_lights.push_back(std::make_shared<Light>(10 * i, 50, 0));
+		_lights.push_back(std::make_shared<Light>());
 	}
+
 
 	modelMaterial->SetLightPosition(_lights);
 
@@ -76,14 +76,12 @@ Scene::Scene()
 	modelMesh->LoadOBJ("teapot3.obj");
 	// Tell the game object to use this mesh
 
-	modelMaterial->SetDiffuseColour(glm::vec3(1, 1, 1));
+	//modelMaterial->SetDiffuseColour(glm::vec3(1, 1, 1));
 
 	for (size_t y = 0; y < _models.size(); y++)
 	{
 		for (size_t x = 0; x < _models[y].size(); x++)
 		{
-			//modelMaterial->SetDiffuseColour(glm::vec3(0.8 / x, 0.1 * y, 0.1));
-
 			_models[y][x]->SetMaterial(modelMaterial);
 			_models[y][x]->SetMesh(modelMesh);
 			_models[y][x]->SetRotation(1 * (x + 1), 0, 0.01);

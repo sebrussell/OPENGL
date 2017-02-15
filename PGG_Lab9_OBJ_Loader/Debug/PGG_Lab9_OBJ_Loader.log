@@ -1,2 +1,4 @@
-﻿  PGG_Lab9_OBJ_Loader.vcxproj -> H:\OPENGL\Debug\PGG_Lab9_OBJ_Loader.exe
-  PGG_Lab9_OBJ_Loader.vcxproj -> H:\OPENGL\Debug\PGG_Lab9_OBJ_Loader.pdb (Full PDB)
+﻿  Main.cpp
+g:\opengl\pgg_lab9_obj_loader\main.cpp(267): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  PGG_Lab9_OBJ_Loader.vcxproj -> G:\OPENGL\Debug\PGG_Lab9_OBJ_Loader.exe
+  PGG_Lab9_OBJ_Loader.vcxproj -> G:\OPENGL\Debug\PGG_Lab9_OBJ_Loader.pdb (Full PDB)

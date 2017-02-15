@@ -7,6 +7,7 @@
 #include <glm.hpp> // This is the main GLM header
 #include <gtc/matrix_transform.hpp> // This one lets us use matrix transformations
 #include <gtc/type_ptr.hpp> // This one gives us access to a utility function which makes sending data to OpenGL nice and easy
+#include <gtc\quaternion.hpp>
 
 #include <string>
 #include <memory>
@@ -25,10 +26,9 @@ public:
 
 	// Use these to adjust the camera's orientation
 	// Camera is currently set up to rotate about the world-space origin NOT the camera's origin
-	void ChangeCameraAngleX( float value ) { _cameraAngleX += value; }
-	void ChangeCameraAngleY( float value ) { _cameraAngleY += value; }
+	void ChangeInMousePosition(glm::vec2 _change) { _changeInCameraRotation = _change; }
 
-	void ChangeCameraPosition(glm::vec3 _value) { _cameraPosition = _value; }
+	void ChangeCameraPosition(glm::vec3 _value) { _changeInCameraPosition = _value; }
 
 	// Calls update on all objects in the scene
 	void Update( float deltaTs );
@@ -51,16 +51,14 @@ protected:
 	// This matrix is like the camera's lens
 	glm::mat4 _projMatrix;
 
-	// Current rotation information about the camera
-	float _cameraAngleX, _cameraAngleY;
-
 	// Position of the single point-light in the scene
 	//glm::vec3 _lightPosition;
 	//std::vector<Light*> _lights;
 	std::vector<std::shared_ptr<Light>> _lights;
 
 
-	glm::vec3 _cameraPosition;
+	glm::vec3 _changeInCameraPosition;
+	glm::vec2 _changeInCameraRotation;
 
 	double _viewDistance;
 

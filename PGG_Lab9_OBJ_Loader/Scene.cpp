@@ -8,7 +8,6 @@
 
 Scene::Scene()
 {
-	_cameraAngleX = 0.0f, _cameraAngleY = 0.0f;
 
 	// Set up the viewing matrix
 	// This represents the camera's orientation and position
@@ -136,12 +135,17 @@ void Scene::Update(float deltaTs)
 
 	// This updates the camera's position and orientation
 
-	_viewMatrix = glm::rotate(glm::mat4(1), _cameraPosition.x, glm::vec3(0, 1, 0)) * _viewMatrix;
-	_viewMatrix = glm::translate(glm::mat4(1), glm::vec3(0, 0, _cameraPosition.z)) * _viewMatrix;
+	_viewMatrix = glm::rotate(glm::mat4(1), _changeInCameraRotation.x, glm::vec3(0, 1, 0)) * _viewMatrix;
+	_viewMatrix = glm::rotate(glm::mat4(1), _changeInCameraRotation.y, glm::vec3(1, 0, 0)) * _viewMatrix;
+
+	//_viewMatrix = glm::rotate(glm::mat4(1), _cameraPosition.y, glm::vec3(1, 0, 0)) * _viewMatrix;
+	_viewMatrix = glm::translate(glm::mat4(1), glm::vec3(0, 0, _changeInCameraPosition.z)) * _viewMatrix;
+	_viewMatrix = glm::translate(glm::mat4(1), glm::vec3(_changeInCameraPosition.x, 0, 0)) * _viewMatrix;
 
 	//modelMaterial->SetLightPosition(_lights);
 
-	_cameraPosition = glm::vec3();  //reset the current change in camera position
+	_changeInCameraPosition = glm::vec3();  //reset the current change in camera position
+	_changeInCameraRotation = glm::vec2();
 }
 
 void Scene::Draw()

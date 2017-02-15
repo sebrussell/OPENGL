@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	
 	// We are going to work out how much time passes from frame to frame
 	// We will use this variable to store the time at our previous frame
@@ -144,6 +144,9 @@ int main(int argc, char *argv[])
 	bool cmdRotateLeft = false, cmdRotateRight = false, cmdRotateUp = false, cmdRotateDown = false;
 	bool aKeyDown = false, sKeyDown = false, dKeyDown = false, wKeyDown = false;
 
+	int oldXMousePos = 0, oldYMousePos = 0; 
+	int newXMousePos = 0, newYMousePos = 0;
+	float rotationAngle = 0.0f;
 
 	// We are now preparing for our main loop (also known as the 'game loop')
 	// This loop will keep going round until we exit from our program by changing the bool 'go' to the value false
@@ -215,6 +218,9 @@ int main(int argc, char *argv[])
 				case SDLK_s:
 					sKeyDown = true;
 					break;
+				case SDLK_ESCAPE:
+					SDL_SetRelativeMouseMode(SDL_FALSE);
+					break;
 				}
 				break;
 			
@@ -250,8 +256,27 @@ int main(int argc, char *argv[])
 					break;
 				}
 				break;
+			case SDL_MOUSEMOTION:
+				
+				SDL_GetMouseState(&newXMousePos, &newYMousePos);
+
+				//std::cout << oldXMousePos - newXMousePos << "," << oldYMousePos - newYMousePos<< std::endl;
+
+				if (oldYMousePos - newYMousePos != 0 && oldXMousePos - newXMousePos != 0)
+				{
+					rotationAngle = asin((oldXMousePos - newXMousePos) / (oldYMousePos - newYMousePos));
+					std::cout << glm::degrees(rotationAngle) << std::endl;
+				}
+				
 			}
 		}
+
+
+
+
+		
+
+
 
 
 		// Update our world
@@ -269,27 +294,10 @@ int main(int argc, char *argv[])
 		lastTime = current;
 		
 		// Control the camera based on our input commands
-		if( cmdRotateLeft &! cmdRotateRight )
-		{
-			myScene.ChangeCameraAngleY( 1.0f * deltaTs );
-		}
-		else if( cmdRotateRight &! cmdRotateLeft )
-		{
-			myScene.ChangeCameraAngleY( -1.0f * deltaTs );
-		}
-		
-		if( cmdRotateUp &! cmdRotateDown )
-		{
-			myScene.ChangeCameraAngleX( 1.0f * deltaTs );
-		}
-		else if( cmdRotateDown &! cmdRotateUp )
-		{
-			myScene.ChangeCameraAngleX( -1.0f * deltaTs );
-		}
 
 		if (aKeyDown == true)
 		{
-			myScene.ChangeCameraPosition(glm::vec3(2, 0, 2) * deltaTs);
+			myScene.ChangeCameraPosition(glm::vec3(2, 0, 0) * deltaTs);
 		}
 		if (sKeyDown == true)
 		{
@@ -304,6 +312,12 @@ int main(int argc, char *argv[])
 			myScene.ChangeCameraPosition(glm::vec3(0, 0, 2) * deltaTs);
 		}
 
+		//myScene.ChangeCameraPosition(glm::vec3((newXMousePos - oldXMousePos), (newYMousePos - oldYMousePos), 0) * deltaTs);
+		myScene.ChangeInMousePosition(glm::vec2((newXMousePos - oldXMousePos), (newYMousePos - oldYMousePos)) * deltaTs);
+
+		oldXMousePos = newXMousePos;
+		oldYMousePos = newYMousePos;
+		
 		// Update the scene
 		myScene.Update( deltaTs );
 

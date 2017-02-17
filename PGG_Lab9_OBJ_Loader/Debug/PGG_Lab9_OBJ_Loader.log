@@ -1,4 +1,12 @@
-﻿  Main.cpp
-g:\opengl\pgg_lab9_obj_loader\main.cpp(267): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+﻿  Scene.cpp
+g:\opengl\pgg_lab9_obj_loader\scene.cpp(65): warning C4018: '<': signed/unsigned mismatch
+g:\opengl\pgg_lab9_obj_loader\scene.cpp(95): warning C4305: 'argument': truncation from 'double' to 'float'
+g:\opengl\pgg_lab9_obj_loader\scene.cpp(95): warning C4244: 'argument': conversion from 'std::size_t' to 'float', possible loss of data
+g:\opengl\pgg_lab9_obj_loader\scene.cpp(96): warning C4244: 'argument': conversion from 'std::size_t' to 'float', possible loss of data
+  Material.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Main.cpp
+  GameObject.cpp
   PGG_Lab9_OBJ_Loader.vcxproj -> G:\OPENGL\Debug\PGG_Lab9_OBJ_Loader.exe
   PGG_Lab9_OBJ_Loader.vcxproj -> G:\OPENGL\Debug\PGG_Lab9_OBJ_Loader.pdb (Full PDB)

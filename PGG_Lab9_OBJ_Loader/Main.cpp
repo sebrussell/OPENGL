@@ -258,16 +258,16 @@ int main(int argc, char *argv[])
 				break;
 			case SDL_MOUSEMOTION:
 				
-				SDL_GetMouseState(&newXMousePos, &newYMousePos);
+				//SDL_GetMouseState(&newXMousePos, &newYMousePos);
 
-				//std::cout << oldXMousePos - newXMousePos << "," << oldYMousePos - newYMousePos<< std::endl;
+				////std::cout << oldXMousePos - newXMousePos << "," << oldYMousePos - newYMousePos<< std::endl;
 
-				if (oldYMousePos - newYMousePos != 0 && oldXMousePos - newXMousePos != 0)
-				{
-					rotationAngle = asin((oldXMousePos - newXMousePos) / (oldYMousePos - newYMousePos));
-					std::cout << glm::degrees(rotationAngle) << std::endl;
-				}
-				
+				//if (oldYMousePos - newYMousePos != 0 && oldXMousePos - newXMousePos != 0)
+				//{
+				//	rotationAngle = asin((oldXMousePos - newXMousePos) / (oldYMousePos - newYMousePos));
+				//	std::cout << glm::degrees(rotationAngle) << std::endl;
+				//}
+				break;
 			}
 		}
 
@@ -310,6 +310,10 @@ int main(int argc, char *argv[])
 		if (wKeyDown == true)
 		{
 			myScene.ChangeCameraPosition(glm::vec3(0, 0, 2) * deltaTs);
+		}
+		if (cmdRotateLeft == true)
+		{
+			newXMousePos += 2;
 		}
 
 		//myScene.ChangeCameraPosition(glm::vec3((newXMousePos - oldXMousePos), (newYMousePos - oldYMousePos), 0) * deltaTs);

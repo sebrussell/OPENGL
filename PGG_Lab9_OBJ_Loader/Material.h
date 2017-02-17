@@ -19,7 +19,9 @@ public:
 
 	// Loads shaders from file
 	// Returns false if there was an error - it will also print out messages to console
-	bool LoadShaders(std::string vertFilename, std::string fragFilename);
+	//bool LoadShaders(std::string vertFilename, std::string fragFilename);
+	//bool LoadShaders2(std::string vertFilename, std::string fragFilename);
+	bool LoadShaders(std::string vertFilename, std::string fragFilename, int _shaderNumber);
 
 	// For setting the standard matrices needed by the shader
 	void SetMatrices(glm::mat4 modelMatrix, glm::mat4 invModelMatrix, glm::mat4 viewMatrix, glm::mat4 projMatrix);
@@ -42,6 +44,9 @@ public:
 	// Sets the material, applying the shaders
 	void Apply();
 
+	void ShaderPassOne();
+	void ShaderPassTwo();
+
 protected:
 	
 	int lightAmount;
@@ -63,6 +68,7 @@ protected:
 	
 	// The OpenGL shader program handle
 	int _shaderProgram;
+	int _shaderProgram2;
 
 	// Locations of Uniforms in the vertex shader
 	int _shaderModelMatLocation;
@@ -82,7 +88,13 @@ protected:
 	// OpenGL handle for the texture
 	unsigned int _texture1;
 
+	
+
+
+
 };
+
+
 
 
 

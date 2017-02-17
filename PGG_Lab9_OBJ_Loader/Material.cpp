@@ -31,168 +31,557 @@ Material::~Material()
 }
 
 
-bool Material::LoadShaders( std::string vertFilename, std::string fragFilename )
+//bool Material::LoadShaders( std::string vertFilename, std::string fragFilename )
+//{
+//	// OpenGL doesn't provide any functions for loading shaders from file
+//
+//	
+//	std::ifstream vertFile( vertFilename );
+//	char *vShaderText = NULL;
+//
+//	if( vertFile.is_open() )
+//	{
+//		// Find out how many characters are in the file
+//		vertFile.seekg (0, vertFile.end);
+//		int length = (int) vertFile.tellg();
+//		vertFile.seekg (0, vertFile.beg);
+//		
+//		// Create our buffer
+//		vShaderText = new char [length];
+//
+//		// Transfer data from file to buffer
+//		vertFile.read(vShaderText,length);
+//
+//		// Check it reached the end of the file
+//		if( !vertFile.eof() )
+//		{
+//			vertFile.close();
+//			std::cerr<<"WARNING: could not read vertex shader from file: "<<vertFilename<<std::endl;
+//			return false;
+//		}
+//
+//		// Find out how many characters were actually read
+//		length = (int) vertFile.gcount();
+//
+//		// Needs to be NULL-terminated
+//		vShaderText[length-1] = 0;
+//		
+//		vertFile.close();
+//	}
+//	else
+//	{
+//		std::cerr<<"WARNING: could not open vertex shader from file: "<<vertFilename<<std::endl;
+//		return false;
+//	}
+//
+//	
+//	std::ifstream fragFile( fragFilename );
+//	char *fShaderText = NULL;
+//
+//	if( fragFile.is_open() )
+//	{
+//		// Find out how many characters are in the file
+//		fragFile.seekg (0, fragFile.end);
+//		int length = (int) fragFile.tellg();
+//		fragFile.seekg (0, fragFile.beg);
+//		
+//		// Create our buffer
+//		fShaderText = new char [length];
+//		
+//		// Transfer data from file to buffer
+//		fragFile.read(fShaderText,length);
+//		
+//		// Check it reached the end of the file
+//		if( !fragFile.eof() )
+//		{
+//			fragFile.close();
+//			std::cerr<<"WARNING: could not read fragment shader from file: "<<fragFilename<<std::endl;
+//			return false;
+//		}
+//		
+//		// Find out how many characters were actually read
+//		length = (int) fragFile.gcount();
+//		
+//		// Needs to be NULL-terminated
+//		fShaderText[length-1] = 0;
+//		
+//		fragFile.close();
+//	}
+//	else
+//	{
+//		std::cerr<<"WARNING: could not open fragment shader from file: "<<fragFilename<<std::endl;
+//		return false;
+//	}
+//
+//
+//
+//	// The 'program' stores the shaders
+//	_shaderProgram = glCreateProgram();
+//
+//	// Create the vertex shader
+//	GLuint vShader = glCreateShader( GL_VERTEX_SHADER );
+//	// Give GL the source for it
+//	glShaderSource( vShader, 1, &vShaderText, NULL );
+//	// Delete buffer
+//	delete [] vShaderText;
+//	// Compile the shader
+//	glCompileShader( vShader );
+//	// Check it compiled and give useful output if it didn't work!
+//	if( !CheckShaderCompiled( vShader ) )
+//	{
+//		std::cerr<<"ERROR: failed to compile vertex shader"<<std::endl;
+//		return false;
+//	}
+//	// This links the shader to the program
+//	glAttachShader( _shaderProgram, vShader );
+//
+//	// Same for the fragment shader
+//	GLuint fShader = glCreateShader( GL_FRAGMENT_SHADER );
+//	glShaderSource( fShader, 1, &fShaderText, NULL );
+//	// Delete buffer
+//	delete [] fShaderText;
+//	glCompileShader( fShader );
+//	if( !CheckShaderCompiled( fShader ) )
+//	{
+//		std::cerr<<"ERROR: failed to compile fragment shader"<<std::endl;
+//		return false;
+//	}
+//	glAttachShader( _shaderProgram, fShader );
+//
+//	// This makes sure the vertex and fragment shaders connect together
+//	glLinkProgram( _shaderProgram );
+//	// Check this worked
+//	GLint linked;
+//	glGetProgramiv( _shaderProgram, GL_LINK_STATUS, &linked );
+//	if ( !linked )
+//	{
+//		GLsizei len;
+//		glGetProgramiv( _shaderProgram, GL_INFO_LOG_LENGTH, &len );
+//
+//		GLchar* log = new GLchar[len+1];
+//		glGetProgramInfoLog( _shaderProgram, len, &len, log );
+//		std::cerr << "ERROR: Shader linking failed: " << log << std::endl;
+//		delete [] log;
+//
+//		return false;
+//	}
+//
+//
+//	// We will define matrices which we will send to the shader
+//	// To do this we need to retrieve the locations of the shader's matrix uniform variables
+//	glUseProgram( _shaderProgram );
+//	_shaderModelMatLocation = glGetUniformLocation( _shaderProgram, "modelMat" );
+//	_shaderInvModelMatLocation = glGetUniformLocation( _shaderProgram, "invModelMat" );
+//	_shaderViewMatLocation = glGetUniformLocation( _shaderProgram, "viewMat" );
+//	_shaderProjMatLocation = glGetUniformLocation( _shaderProgram, "projMat" );
+//		
+//	_shaderLightAmount = glGetUniformLocation(_shaderProgram, "lightAmount");
+//
+//	_shaderLightColLocation = glGetUniformLocation(_shaderProgram, "lightColour");
+//	_shaderEmissiveColLocation = glGetUniformLocation(_shaderProgram, "emissiveColour");
+//	_shaderAmbientColLocation = glGetUniformLocation(_shaderProgram, "ambientColour");
+//	_shaderDiffuseColLocation = glGetUniformLocation(_shaderProgram, "diffuseColour");
+//	_shaderSpecularColLocation = glGetUniformLocation(_shaderProgram, "specularColour");
+//
+//	_shaderLightPosition = glGetUniformLocation(_shaderProgram, "lightPosition");
+//	_shaderLightDirection = glGetUniformLocation(_shaderProgram, "lightDirection");
+//	_shaderLightCutOff = glGetUniformLocation(_shaderProgram, "lightCutOff");
+//	_shaderLightAngle = glGetUniformLocation(_shaderProgram, "lightAngle");
+//	_shaderLightType = glGetUniformLocation(_shaderProgram, "lightType");
+//
+//	_shaderTex1SamplerLocation = glGetUniformLocation( _shaderProgram, "tex1" );
+//
+//	return true;
+//}
+
+//bool Material::LoadShaders2(std::string vertFilename, std::string fragFilename)
+//{
+//	// OpenGL doesn't provide any functions for loading shaders from file
+//
+//
+//	std::ifstream vertFile(vertFilename);
+//	char *vShaderText = NULL;
+//
+//	if (vertFile.is_open())
+//	{
+//		// Find out how many characters are in the file
+//		vertFile.seekg(0, vertFile.end);
+//		int length = (int)vertFile.tellg();
+//		vertFile.seekg(0, vertFile.beg);
+//
+//		// Create our buffer
+//		vShaderText = new char[length];
+//
+//		// Transfer data from file to buffer
+//		vertFile.read(vShaderText, length);
+//
+//		// Check it reached the end of the file
+//		if (!vertFile.eof())
+//		{
+//			vertFile.close();
+//			std::cerr << "WARNING: could not read vertex shader from file: " << vertFilename << std::endl;
+//			return false;
+//		}
+//
+//		// Find out how many characters were actually read
+//		length = (int)vertFile.gcount();
+//
+//		// Needs to be NULL-terminated
+//		vShaderText[length - 1] = 0;
+//
+//		vertFile.close();
+//	}
+//	else
+//	{
+//		std::cerr << "WARNING: could not open vertex shader from file: " << vertFilename << std::endl;
+//		return false;
+//	}
+//
+//
+//	std::ifstream fragFile(fragFilename);
+//	char *fShaderText = NULL;
+//
+//	if (fragFile.is_open())
+//	{
+//		// Find out how many characters are in the file
+//		fragFile.seekg(0, fragFile.end);
+//		int length = (int)fragFile.tellg();
+//		fragFile.seekg(0, fragFile.beg);
+//
+//		// Create our buffer
+//		fShaderText = new char[length];
+//
+//		// Transfer data from file to buffer
+//		fragFile.read(fShaderText, length);
+//
+//		// Check it reached the end of the file
+//		if (!fragFile.eof())
+//		{
+//			fragFile.close();
+//			std::cerr << "WARNING: could not read fragment shader from file: " << fragFilename << std::endl;
+//			return false;
+//		}
+//
+//		// Find out how many characters were actually read
+//		length = (int)fragFile.gcount();
+//
+//		// Needs to be NULL-terminated
+//		fShaderText[length - 1] = 0;
+//
+//		fragFile.close();
+//	}
+//	else
+//	{
+//		std::cerr << "WARNING: could not open fragment shader from file: " << fragFilename << std::endl;
+//		return false;
+//	}
+//
+//
+//
+//	// The 'program' stores the shaders
+//	_shaderProgram2 = glCreateProgram();
+//
+//	// Create the vertex shader
+//	GLuint vShader = glCreateShader(GL_VERTEX_SHADER);
+//	// Give GL the source for it
+//	glShaderSource(vShader, 1, &vShaderText, NULL);
+//	// Delete buffer
+//	delete[] vShaderText;
+//	// Compile the shader
+//	glCompileShader(vShader);
+//	// Check it compiled and give useful output if it didn't work!
+//	if (!CheckShaderCompiled(vShader))
+//	{
+//		std::cerr << "ERROR: failed to compile vertex shader" << std::endl;
+//		return false;
+//	}
+//	// This links the shader to the program
+//	glAttachShader(_shaderProgram2, vShader);
+//
+//	// Same for the fragment shader
+//	GLuint fShader = glCreateShader(GL_FRAGMENT_SHADER);
+//	glShaderSource(fShader, 1, &fShaderText, NULL);
+//	// Delete buffer
+//	delete[] fShaderText;
+//	glCompileShader(fShader);
+//	if (!CheckShaderCompiled(fShader))
+//	{
+//		std::cerr << "ERROR: failed to compile fragment shader" << std::endl;
+//		return false;
+//	}
+//	glAttachShader(_shaderProgram2, fShader);
+//
+//	// This makes sure the vertex and fragment shaders connect together
+//	glLinkProgram(_shaderProgram2);
+//	// Check this worked
+//	GLint linked;
+//	glGetProgramiv(_shaderProgram2, GL_LINK_STATUS, &linked);
+//	if (!linked)
+//	{
+//		GLsizei len;
+//		glGetProgramiv(_shaderProgram2, GL_INFO_LOG_LENGTH, &len);
+//
+//		GLchar* log = new GLchar[len + 1];
+//		glGetProgramInfoLog(_shaderProgram2, len, &len, log);
+//		std::cerr << "ERROR: Shader linking failed: " << log << std::endl;
+//		delete[] log;
+//
+//		return false;
+//	}
+//
+//
+//	// We will define matrices which we will send to the shader
+//	// To do this we need to retrieve the locations of the shader's matrix uniform variables
+//	//glUseProgram(_shaderProgram2);
+//	//_shaderModelMatLocation = glGetUniformLocation(_shaderProgram, "modelMat");
+//	//_shaderInvModelMatLocation = glGetUniformLocation(_shaderProgram, "invModelMat");
+//	//_shaderViewMatLocation = glGetUniformLocation(_shaderProgram, "viewMat");
+//	//_shaderProjMatLocation = glGetUniformLocation(_shaderProgram, "projMat");
+//
+//	//_shaderLightAmount = glGetUniformLocation(_shaderProgram, "lightAmount");
+//
+//	//_shaderLightColLocation = glGetUniformLocation(_shaderProgram, "lightColour");
+//	//_shaderEmissiveColLocation = glGetUniformLocation(_shaderProgram, "emissiveColour");
+//	//_shaderAmbientColLocation = glGetUniformLocation(_shaderProgram, "ambientColour");
+//	//_shaderDiffuseColLocation = glGetUniformLocation(_shaderProgram, "diffuseColour");
+//	//_shaderSpecularColLocation = glGetUniformLocation(_shaderProgram, "specularColour");
+//
+//	//_shaderLightPosition = glGetUniformLocation(_shaderProgram, "lightPosition");
+//	//_shaderLightDirection = glGetUniformLocation(_shaderProgram, "lightDirection");
+//	//_shaderLightCutOff = glGetUniformLocation(_shaderProgram, "lightCutOff");
+//	//_shaderLightAngle = glGetUniformLocation(_shaderProgram, "lightAngle");
+//	//_shaderLightType = glGetUniformLocation(_shaderProgram, "lightType");
+//
+//	//_shaderTex1SamplerLocation = glGetUniformLocation(_shaderProgram, "tex1");
+//
+//	return true;
+//}
+
+bool Material::LoadShaders(std::string vertFilename, std::string fragFilename, int _shaderNumber)
 {
 	// OpenGL doesn't provide any functions for loading shaders from file
 
-	
-	std::ifstream vertFile( vertFilename );
+
+	std::ifstream vertFile(vertFilename);
 	char *vShaderText = NULL;
 
-	if( vertFile.is_open() )
+	if (vertFile.is_open())
 	{
 		// Find out how many characters are in the file
-		vertFile.seekg (0, vertFile.end);
-		int length = (int) vertFile.tellg();
-		vertFile.seekg (0, vertFile.beg);
-		
+		vertFile.seekg(0, vertFile.end);
+		int length = (int)vertFile.tellg();
+		vertFile.seekg(0, vertFile.beg);
+
 		// Create our buffer
-		vShaderText = new char [length];
+		vShaderText = new char[length];
 
 		// Transfer data from file to buffer
-		vertFile.read(vShaderText,length);
+		vertFile.read(vShaderText, length);
 
 		// Check it reached the end of the file
-		if( !vertFile.eof() )
+		if (!vertFile.eof())
 		{
 			vertFile.close();
-			std::cerr<<"WARNING: could not read vertex shader from file: "<<vertFilename<<std::endl;
+			std::cerr << "WARNING: could not read vertex shader from file: " << vertFilename << std::endl;
 			return false;
 		}
 
 		// Find out how many characters were actually read
-		length = (int) vertFile.gcount();
+		length = (int)vertFile.gcount();
 
 		// Needs to be NULL-terminated
-		vShaderText[length-1] = 0;
-		
+		vShaderText[length - 1] = 0;
+
 		vertFile.close();
 	}
 	else
 	{
-		std::cerr<<"WARNING: could not open vertex shader from file: "<<vertFilename<<std::endl;
+		std::cerr << "WARNING: could not open vertex shader from file: " << vertFilename << std::endl;
 		return false;
 	}
 
-	
-	std::ifstream fragFile( fragFilename );
+
+	std::ifstream fragFile(fragFilename);
 	char *fShaderText = NULL;
 
-	if( fragFile.is_open() )
+	if (fragFile.is_open())
 	{
 		// Find out how many characters are in the file
-		fragFile.seekg (0, fragFile.end);
-		int length = (int) fragFile.tellg();
-		fragFile.seekg (0, fragFile.beg);
-		
+		fragFile.seekg(0, fragFile.end);
+		int length = (int)fragFile.tellg();
+		fragFile.seekg(0, fragFile.beg);
+
 		// Create our buffer
-		fShaderText = new char [length];
-		
+		fShaderText = new char[length];
+
 		// Transfer data from file to buffer
-		fragFile.read(fShaderText,length);
-		
+		fragFile.read(fShaderText, length);
+
 		// Check it reached the end of the file
-		if( !fragFile.eof() )
+		if (!fragFile.eof())
 		{
 			fragFile.close();
-			std::cerr<<"WARNING: could not read fragment shader from file: "<<fragFilename<<std::endl;
+			std::cerr << "WARNING: could not read fragment shader from file: " << fragFilename << std::endl;
 			return false;
 		}
-		
+
 		// Find out how many characters were actually read
-		length = (int) fragFile.gcount();
-		
+		length = (int)fragFile.gcount();
+
 		// Needs to be NULL-terminated
-		fShaderText[length-1] = 0;
-		
+		fShaderText[length - 1] = 0;
+
 		fragFile.close();
 	}
 	else
 	{
-		std::cerr<<"WARNING: could not open fragment shader from file: "<<fragFilename<<std::endl;
+		std::cerr << "WARNING: could not open fragment shader from file: " << fragFilename << std::endl;
 		return false;
 	}
 
-
+	if (_shaderNumber == 0)
+	{
+		_shaderProgram = glCreateProgram();
+	}
+	else if (_shaderNumber == 1)
+	{
+		_shaderProgram2 = glCreateProgram();
+	}
 
 	// The 'program' stores the shaders
-	_shaderProgram = glCreateProgram();
+	
 
 	// Create the vertex shader
-	GLuint vShader = glCreateShader( GL_VERTEX_SHADER );
+	GLuint vShader = glCreateShader(GL_VERTEX_SHADER);
 	// Give GL the source for it
-	glShaderSource( vShader, 1, &vShaderText, NULL );
+	glShaderSource(vShader, 1, &vShaderText, NULL);
 	// Delete buffer
-	delete [] vShaderText;
+	delete[] vShaderText;
 	// Compile the shader
-	glCompileShader( vShader );
+	glCompileShader(vShader);
 	// Check it compiled and give useful output if it didn't work!
-	if( !CheckShaderCompiled( vShader ) )
+	if (!CheckShaderCompiled(vShader))
 	{
-		std::cerr<<"ERROR: failed to compile vertex shader"<<std::endl;
+		std::cerr << "ERROR: failed to compile vertex shader" << std::endl;
 		return false;
 	}
 	// This links the shader to the program
-	glAttachShader( _shaderProgram, vShader );
+
+	if (_shaderNumber == 0)
+	{
+		glAttachShader(_shaderProgram, vShader);
+	}
+	else if (_shaderNumber == 1)
+	{
+		glAttachShader(_shaderProgram2, vShader);
+	}
 
 	// Same for the fragment shader
-	GLuint fShader = glCreateShader( GL_FRAGMENT_SHADER );
-	glShaderSource( fShader, 1, &fShaderText, NULL );
+	GLuint fShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fShader, 1, &fShaderText, NULL);
 	// Delete buffer
-	delete [] fShaderText;
-	glCompileShader( fShader );
-	if( !CheckShaderCompiled( fShader ) )
+	delete[] fShaderText;
+	glCompileShader(fShader);
+	if (!CheckShaderCompiled(fShader))
 	{
-		std::cerr<<"ERROR: failed to compile fragment shader"<<std::endl;
+		std::cerr << "ERROR: failed to compile fragment shader" << std::endl;
 		return false;
 	}
-	glAttachShader( _shaderProgram, fShader );
 
-	// This makes sure the vertex and fragment shaders connect together
-	glLinkProgram( _shaderProgram );
-	// Check this worked
-	GLint linked;
-	glGetProgramiv( _shaderProgram, GL_LINK_STATUS, &linked );
-	if ( !linked )
+	if (_shaderNumber == 0)
 	{
-		GLsizei len;
-		glGetProgramiv( _shaderProgram, GL_INFO_LOG_LENGTH, &len );
+		glAttachShader(_shaderProgram, fShader);
+	}
+	else if (_shaderNumber == 1)
+	{
+		glAttachShader(_shaderProgram2, fShader);
+	}
 
-		GLchar* log = new GLchar[len+1];
-		glGetProgramInfoLog( _shaderProgram, len, &len, log );
-		std::cerr << "ERROR: Shader linking failed: " << log << std::endl;
-		delete [] log;
 
-		return false;
+
+
+
+	if (_shaderNumber == 0)
+	{
+		// This makes sure the vertex and fragment shaders connect together
+		glLinkProgram(_shaderProgram);
+		// Check this worked
+		GLint linked;
+		glGetProgramiv(_shaderProgram, GL_LINK_STATUS, &linked);
+		if (!linked)
+		{
+			GLsizei len;
+			glGetProgramiv(_shaderProgram, GL_INFO_LOG_LENGTH, &len);
+
+			GLchar* log = new GLchar[len + 1];
+			glGetProgramInfoLog(_shaderProgram, len, &len, log);
+			std::cerr << "ERROR: Shader linking failed: " << log << std::endl;
+			delete[] log;
+
+			return false;
+		}
+	}
+	else if (_shaderNumber == 1)
+	{
+		// This makes sure the vertex and fragment shaders connect together
+		glLinkProgram(_shaderProgram2);
+		// Check this worked
+		GLint linked;
+		glGetProgramiv(_shaderProgram2, GL_LINK_STATUS, &linked);
+		if (!linked)
+		{
+			GLsizei len;
+			glGetProgramiv(_shaderProgram2, GL_INFO_LOG_LENGTH, &len);
+
+			GLchar* log = new GLchar[len + 1];
+			glGetProgramInfoLog(_shaderProgram2, len, &len, log);
+			std::cerr << "ERROR: Shader linking failed: " << log << std::endl;
+			delete[] log;
+
+			return false;
+		}
+	}
+
+	if (_shaderNumber == 0)
+	{
+		glAttachShader(_shaderProgram, fShader);
+
+		_shaderModelMatLocation = glGetUniformLocation(_shaderProgram, "modelMat");
+		_shaderInvModelMatLocation = glGetUniformLocation(_shaderProgram, "invModelMat");
+		_shaderViewMatLocation = glGetUniformLocation(_shaderProgram, "viewMat");
+		_shaderProjMatLocation = glGetUniformLocation(_shaderProgram, "projMat");
+
+		_shaderLightAmount = glGetUniformLocation(_shaderProgram, "lightAmount");
+
+		_shaderLightColLocation = glGetUniformLocation(_shaderProgram, "lightColour");
+		_shaderEmissiveColLocation = glGetUniformLocation(_shaderProgram, "emissiveColour");
+		_shaderAmbientColLocation = glGetUniformLocation(_shaderProgram, "ambientColour");
+		_shaderDiffuseColLocation = glGetUniformLocation(_shaderProgram, "diffuseColour");
+		_shaderSpecularColLocation = glGetUniformLocation(_shaderProgram, "specularColour");
+
+		_shaderLightPosition = glGetUniformLocation(_shaderProgram, "lightPosition");
+		_shaderLightDirection = glGetUniformLocation(_shaderProgram, "lightDirection");
+		_shaderLightCutOff = glGetUniformLocation(_shaderProgram, "lightCutOff");
+		_shaderLightAngle = glGetUniformLocation(_shaderProgram, "lightAngle");
+		_shaderLightType = glGetUniformLocation(_shaderProgram, "lightType");
+
+		_shaderTex1SamplerLocation = glGetUniformLocation(_shaderProgram, "tex1");
+	}
+	else if (_shaderNumber == 1)
+	{
+		glAttachShader(_shaderProgram2, fShader);
 	}
 
 
 	// We will define matrices which we will send to the shader
 	// To do this we need to retrieve the locations of the shader's matrix uniform variables
-	glUseProgram( _shaderProgram );
-	_shaderModelMatLocation = glGetUniformLocation( _shaderProgram, "modelMat" );
-	_shaderInvModelMatLocation = glGetUniformLocation( _shaderProgram, "invModelMat" );
-	_shaderViewMatLocation = glGetUniformLocation( _shaderProgram, "viewMat" );
-	_shaderProjMatLocation = glGetUniformLocation( _shaderProgram, "projMat" );
-		
-	_shaderLightAmount = glGetUniformLocation(_shaderProgram, "lightAmount");
+	glUseProgram(_shaderProgram);
 
-	_shaderLightColLocation = glGetUniformLocation(_shaderProgram, "lightColour");
-	_shaderEmissiveColLocation = glGetUniformLocation(_shaderProgram, "emissiveColour");
-	_shaderAmbientColLocation = glGetUniformLocation(_shaderProgram, "ambientColour");
-	_shaderDiffuseColLocation = glGetUniformLocation(_shaderProgram, "diffuseColour");
-	_shaderSpecularColLocation = glGetUniformLocation(_shaderProgram, "specularColour");
-
-	_shaderLightPosition = glGetUniformLocation(_shaderProgram, "lightPosition");
-	_shaderLightDirection = glGetUniformLocation(_shaderProgram, "lightDirection");
-	_shaderLightCutOff = glGetUniformLocation(_shaderProgram, "lightCutOff");
-	_shaderLightAngle = glGetUniformLocation(_shaderProgram, "lightAngle");
-	_shaderLightType = glGetUniformLocation(_shaderProgram, "lightType");
-
-	_shaderTex1SamplerLocation = glGetUniformLocation( _shaderProgram, "tex1" );
 
 	return true;
 }
+
+
 
 bool Material::CheckShaderCompiled( GLint shader )
 {
@@ -268,7 +657,12 @@ void Material::SetMatrices(glm::mat4 modelMatrix, glm::mat4 invModelMatrix, glm:
 
 void Material::Apply()
 {
-	glUseProgram( _shaderProgram );
+	ShaderPassOne();
+}
+
+void Material::ShaderPassOne()
+{
+	glUseProgram(_shaderProgram);
 
 	glUniform4fv(_shaderLightPosition, lightAmount, (GLfloat*)&m_lightPositions[0]);
 	glUniform3fv(_shaderLightDirection, lightAmount, (GLfloat*)&m_lightDirection[0]);
@@ -283,10 +677,18 @@ void Material::Apply()
 	glUniform3fv(_shaderAmbientColLocation, lightAmount, (GLfloat*)&m_lightAmbientColour[0]);
 	glUniform3fv(_shaderDiffuseColLocation, lightAmount, (GLfloat*)&m_lightDiffuseColour[0]);
 	glUniform3fv(_shaderSpecularColLocation, lightAmount, (GLfloat*)&m_lightSpecularColour[0]);
-	
+
 	glActiveTexture(GL_TEXTURE0);
-	glUniform1i(_shaderTex1SamplerLocation,0);
+	glUniform1i(_shaderTex1SamplerLocation, 0);
 	glBindTexture(GL_TEXTURE_2D, _texture1);
+}
+
+void Material::ShaderPassTwo()
+{
+	glClearColor(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glUseProgram(_shaderProgram2);
+	
+	glActiveTexture()
 }
 
 void Material::SetLightPosition(std::vector<std::shared_ptr<Light>> _lights)

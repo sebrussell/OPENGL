@@ -11,7 +11,7 @@ Scene::Scene()
 
 	// Set up the viewing matrix
 	// This represents the camera's orientation and position
-	_viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0, 1.0f, -3.5f));
+	_viewMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(-10, 1.0f, -13.5f));
 
 	_viewDistance = 50;
 
@@ -45,7 +45,9 @@ Scene::Scene()
 	//Material *modelMaterial = new Material();
 	std::shared_ptr<Material> modelMaterial(new Material);
 	// Shaders are now in files
-	modelMaterial->LoadShaders("VertShader.txt", "FragShader.txt");
+	//modelMaterial->LoadShaders("VertShader.txt", "FragShader.txt");
+	modelMaterial->LoadShaders("VertShader.txt", "FragShader.txt", 0);
+	modelMaterial->LoadShaders("VertShader.txt", "FragShader.txt", 1);
 	// You can set some simple material properties, these values are passed to the shader
 	// This colour modulates the texture colour
 

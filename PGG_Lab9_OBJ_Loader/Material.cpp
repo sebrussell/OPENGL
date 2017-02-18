@@ -23,6 +23,13 @@ Material::Material()
 	_texture1 = 0;
 
 	lightAmount = 0;
+
+	//windowWidth = _windowWidth;
+	//windowHeight = _windowHeight;
+
+	//frameBuffer.GenertateFBO(windowHeight, windowHeight);
+
+
 }
 
 Material::~Material()
@@ -570,18 +577,17 @@ bool Material::LoadShaders(std::string vertFilename, std::string fragFilename, i
 	else if (_shaderNumber == 1)
 	{
 		glAttachShader(_shaderProgram2, fShader);
+		_geoShaderTextCoords = glGetUniformLocation(_shaderProgram2, "TexCoords");
 	}
 
 
 	// We will define matrices which we will send to the shader
 	// To do this we need to retrieve the locations of the shader's matrix uniform variables
-	glUseProgram(_shaderProgram);
+	//glUseProgram(_shaderProgram);
 
 
 	return true;
 }
-
-
 
 bool Material::CheckShaderCompiled( GLint shader )
 {
@@ -657,11 +663,6 @@ void Material::SetMatrices(glm::mat4 modelMatrix, glm::mat4 invModelMatrix, glm:
 
 void Material::Apply()
 {
-	ShaderPassOne();
-}
-
-void Material::ShaderPassOne()
-{
 	glUseProgram(_shaderProgram);
 
 	glUniform4fv(_shaderLightPosition, lightAmount, (GLfloat*)&m_lightPositions[0]);
@@ -681,14 +682,7 @@ void Material::ShaderPassOne()
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(_shaderTex1SamplerLocation, 0);
 	glBindTexture(GL_TEXTURE_2D, _texture1);
-}
-
-void Material::ShaderPassTwo()
-{
-	glClearColor(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUseProgram(_shaderProgram2);
 	
-	glActiveTexture()
 }
 
 void Material::SetLightPosition(std::vector<std::shared_ptr<Light>> _lights)
@@ -718,4 +712,24 @@ void Material::SetLightPosition(std::vector<std::shared_ptr<Light>> _lights)
 		m_lightAngle.at(i) = _lights[i]->m_lightAngle;
 		m_lightType.at(i) = _lights[i]->m_lightType;
 	}
+}
+
+void Material::ChangeShader(int _id)
+{
+	if (_id == 0)
+	{
+		glUseProgram(_shaderProgram);
+	}
+	else if (_id == 1)
+	{
+		glUseProgram(_shaderProgram2);
+	}
+}
+
+void Material::SetTexture(GLuint _textureColourBuffer)
+{
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i(_geoShaderTextCoords, 0);
+	glBindTexture(GL_TEXTURE_2D, _textureColourBuffer);
+
 }

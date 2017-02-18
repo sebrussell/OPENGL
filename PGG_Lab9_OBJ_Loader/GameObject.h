@@ -24,8 +24,10 @@ public:
 	std::shared_ptr<Material> GetMaterial() { return _material; }
 	
 	void SetPosition( float posX, float posY, float posZ ) {_position.x = posX; _position.y = posY; _position.z = posZ;}
-
 	void SetRotation( float rotX, float rotY, float rotZ ) {_rotation.x = rotX; _rotation.y = rotY; _rotation.z = rotZ;}
+
+	void SetChangePos(glm::vec3 _value) { _changeInPostion = _value; }
+	void SetChangeRot(glm::vec3 _value) { _changeInRotation = _value; }
 
 	double GetDistanceFromPlayer() { return distanceFromPlayer;  }
 
@@ -62,6 +64,10 @@ protected:
 	glm::vec3 _rotation;
 
 	double distanceFromPlayer;
+
+	glm::vec3 _changeInRotation;
+	glm::vec3 _changeInPostion;
+
 
 
 };

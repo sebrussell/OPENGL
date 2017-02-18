@@ -21,6 +21,7 @@ public:
 	// Draws the mesh - must have shaders applied for this to display!
 	void Draw();
 
+	
 protected:
 	
 	// OpenGL Vertex Array Object

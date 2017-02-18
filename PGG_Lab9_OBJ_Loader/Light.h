@@ -8,7 +8,8 @@ public:
 	{
 		directional,
 		point,
-		spotlight
+		spotlight,
+		global
 	};
 
 	Light();

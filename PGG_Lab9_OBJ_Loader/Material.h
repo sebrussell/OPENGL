@@ -44,8 +44,10 @@ public:
 	// Sets the material, applying the shaders
 	void Apply();
 
-	void ShaderPassOne();
-	void ShaderPassTwo();
+	void ChangeShader(int _id);
+
+	void SetTexture(GLuint _textureColourBuffer);
+
 
 protected:
 	
@@ -75,12 +77,18 @@ protected:
 	int _shaderInvModelMatLocation;
 	int _shaderViewMatLocation;
 	int _shaderProjMatLocation;
-
 	// Location of Uniforms in the fragment shader
 	int _shaderDiffuseColLocation, _shaderEmissiveColLocation, _shaderSpecularColLocation, _shaderAmbientColLocation, _shaderLightColLocation;
 	int _shaderTex1SamplerLocation;
 	int _shaderLightPosition, _shaderLightDirection, _shaderLightCutOff, _shaderLightAngle, _shaderLightType;
 	int _shaderLightAmount;
+
+
+	//locations of things in the geomatry shaders
+
+	int _geoShaderTextCoords;
+
+
 
 	// Loads a .bmp from file
 	unsigned int LoadTexture( std::string filename );
@@ -88,10 +96,12 @@ protected:
 	// OpenGL handle for the texture
 	unsigned int _texture1;
 
-	
+	unsigned int _depthTexture;
+	unsigned int _colorTexture;
 
+	//unsigned int windowWidth, windowHeight;
 
-
+	//FrameBuffer frameBuffer;
 };
 
 

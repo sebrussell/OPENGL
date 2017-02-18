@@ -214,6 +214,11 @@ void Mesh::Draw()
 			// Tell OpenGL to draw it
 			// Must specify the type of geometry to draw and the number of vertices
 			glDrawArrays(GL_TRIANGLES, 0, _numVertices);
+
+			/*for (size_t i = 0; i < _numVertices; i += 3)
+			{
+				glDrawArrays(GL_LINE_LOOP, i, 3);						//will draw a wireframe
+			}*/
 			
 		// Unbind VAO
 		glBindVertexArray( 0 );

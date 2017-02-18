@@ -8,6 +8,8 @@ GameObject::GameObject()
 	// Initialise everything here
 	_mesh = NULL;
 	_material = NULL;
+	_changeInPostion = glm::vec3(0, 0, 0);
+	_changeInRotation = glm::vec3(0, 0.5, 0);
 }
 
 GameObject::~GameObject()
@@ -21,13 +23,15 @@ void GameObject::Update(float deltaTs, glm::mat4 _viewMatrix)
 	// Change the _position and _rotation to move the model
 
 
+	_rotation += _changeInRotation * deltaTs;
+	_position += _changeInPostion * deltaTs;
 
-
-	_rotation.y += deltaTs * 0.5f;
+	//_rotation.y += deltaTs * 0.5f;
 	while (_rotation.y > (3.14159265358979323846 * 2.0))
 	{
 		_rotation.y -= (float)(3.14159265358979323846 * 2.0);
 	}
+
 
 	CalculateDistanceFromPlayer(_viewMatrix);
 

@@ -42,37 +42,55 @@ void main()
 	for(int i = 0; i < lightAmount; i++)
 	{
 		vec3 eyeSpaceLightPosV = vec3(_viewMat * lightPosition[i]);
-
-		// Calculate the direction from the sample position to the light
 		vec3 lightDir = normalize( eyeSpaceLightPosV - eyeSpaceVertPosV );
-		// Ensure the normal is a unit vector
 		vec3 normal = normalize( vNormalV );
-		// Direction from eye to sample point
 		vec3 eyeDir = normalize( -eyeSpaceVertPosV );
-		// Vector half way between one to eye and one to light
 		vec3 halfVec = normalize( eyeDir + lightDir );
-
 		vec4 worldSpaceVertex = inverse(_viewMat) * vec4(eyeSpaceVertPosV, 1);
 		float dist = distance(worldSpaceVertex, lightPosition[i]);
 
-		if(dist < lightCutOff[i])
+
+		if(lightType[i] == 0)					//directional
 		{
-		  float attn = 1.0 / (1.0 + 0.1*dist + 0.01*dist*dist);
-		  attn = 1;
-
-		  // Calculate diffuse lighting
-		  tempDiffuse += (diffuseColour[i] * lightColour[i] * max( dot( normal, lightDir ), 0)) * attn;
-
 	
-		  // Put specular lighting code here!
-		  tempSpecular = vec3(0);
-
-		  // Final colour uses the texture colour for all components
-		  // If you want a separate texture for specular you will need to change this
-		  tempEmissive += emissiveColour[i] *attn;
-		  tempAmbient += ambientColour[i] *attn;
 		
-		}		
+		}
+		else if(lightType[i] == 1)				//point
+		{
+		
+		}	
+		else if(lightType[i] == 2)				//spot
+		{
+			if(dist < lightCutOff[i])
+			{
+			 float attn = 1.0 / (1.0 + 0.1*dist + 0.01*dist*dist);
+			 attn = 1;
+
+			 // Calculate diffuse lighting
+			 tempDiffuse += (diffuseColour[i] * lightColour[i] * max( dot( normal, lightDir ), 0)) * attn;
+			
+			 //vec3 VertexToEye = eyeSpaceLightPosV - eyeSpaceVertPosV ;
+			 //vec3 LightReflect = reflect(eyeDir, normal);
+			 //float specularFactor = dot(VertexToEye, LightReflect);
+			// if(specularFactor > 0)
+			// {
+			// specularFactor = pow(specularFactor, 32);
+			// tempSpecular += vec3(lightColour[i] * 1.0f * specularFactor);
+			// }
+
+			 tempEmissive += emissiveColour[i] *attn;
+			 
+			}		
+		}
+		else if(lightType[i] == 3)				//global
+		{
+			tempAmbient += ambientColour[i];		
+		}
+
+
+		
+
+		
 	}
 
 	fragColour = vec4( tempEmissive + texColour*(tempAmbient + tempDiffuse + tempSpecular), alpha);

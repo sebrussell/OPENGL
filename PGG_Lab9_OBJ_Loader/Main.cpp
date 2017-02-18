@@ -13,6 +13,10 @@
 #include <iostream>
 #include <string>
 
+
+#include "FrameBuffer.h"
+
+
 // An initialisation function, mainly for GLEW
 // This will also print to console the version of OpenGL we are using
 bool InitGL()
@@ -131,10 +135,15 @@ int main(int argc, char *argv[])
 	// Enable the depth test to make sure triangles in front are always in front no matter the order they are drawn
 	// When you do this, don't forget to clear the depth buffer at the start of each frame - otherwise you just get an empty screen!
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
 
 	// The scene contains all the objects etc
-	Scene myScene;
+	
+	
+	Scene myScene(winWidth, winHeight);
 
+
+	
 
 	// Ok, hopefully finished with initialisation now
 	// Let's go and draw something!
@@ -268,7 +277,10 @@ int main(int argc, char *argv[])
 				//	std::cout << glm::degrees(rotationAngle) << std::endl;
 				//}
 				break;
-			}
+			case SDL_MOUSEBUTTONDOWN:
+				myScene.SpawnShooter();
+				break;
+			}			
 		}
 
 

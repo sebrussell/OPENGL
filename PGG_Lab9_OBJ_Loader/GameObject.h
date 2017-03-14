@@ -3,20 +3,16 @@
 
 #include "Mesh.h"
 #include "Material.h"
-#include <vector>
+#include <vector>									//the include files
 #include <iostream>
+#include "BoxCollider.h"
 
-
-// The GameObject contains a mesh, a material and position / orientation information
-class GameObject
+class GameObject : public BoxCollider
 {
 public:
 
 	GameObject();
-	~GameObject();
-
-	//void SetMesh(Mesh *input) {_mesh = input;}
-	//void SetMaterial(Material *input) {_material = input;}
+	~GameObject();																								//all the different public functions
 
 	void SetMesh(std::shared_ptr<Mesh> input) { _mesh = input; }
 	void SetMaterial(std::shared_ptr<Material> input) { _material = input; }
@@ -33,34 +29,29 @@ public:
 
 	void CalculateDistanceFromPlayer(glm::mat4 _viewMatrix);
 	
-	// Game object is current hard-coded to rotate
 	void Update( float deltaTs, glm::mat4 _viewMatrix);
 
-	// Need to give it the camera's orientation and projection
-	void Draw(glm::mat4 viewMatrix, glm::mat4 projMatrix);
+	void Draw(glm::mat4 viewMatrix, glm::mat4 projMatrix, bool isSkyBox, int _width, int _height);
+
+	std::shared_ptr<BoxCollider> GetBoxCollider() { return boxCollider; }
+
+	void Delete() { deleteMe = true; }
+	bool ShouldIBeDeleted() { return deleteMe; }
 
 protected:
+	bool deleteMe;
 
-	// The actual model geometry
-	//Mesh *_mesh;
-	// The material contains the shader
-	//Material *_material;
-
-	
 	std::shared_ptr<Mesh> _mesh;
-
 	std::shared_ptr<Material> _material;
 
 	// Matrix for the position and orientation of the game object
 	glm::mat4 _modelMatrix;
 	glm::mat4 _invModelMatrix;
 	
-	// Position of the model
-	// The model matrix must be built from this and the _rotation
+	// Position of the model														//private variables
 	glm::vec3 _position;
 	
 	// Orientation of the model
-	// The model matrix must be built from this and the _position
 	glm::vec3 _rotation;
 
 	double distanceFromPlayer;
@@ -68,8 +59,8 @@ protected:
 	glm::vec3 _changeInRotation;
 	glm::vec3 _changeInPostion;
 
-
-
+	std::shared_ptr<BoxCollider> boxCollider;
+	
 };
 
 

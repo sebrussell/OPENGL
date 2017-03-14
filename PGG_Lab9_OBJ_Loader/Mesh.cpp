@@ -1,7 +1,7 @@
 
 #include "Mesh.h"
 #include <fstream>
-#include <iostream>
+#include <iostream>					//the include files
 #include <sstream>
 #include <vector>
 
@@ -128,6 +128,65 @@ void Mesh::LoadOBJ( std::string filename )
 
 			}
 		}
+		float lowestX = 0, lowestY = 0, lowestZ = 0, highestX = 0, highestY = 0, highestZ = 0;
+		for (size_t i = 0; i < orderedPositionData.size(); i++)
+		{
+
+			if (orderedPositionData[i].x < lowestX)
+			{
+				lowestX = orderedPositionData[i].x;
+			}
+			if (orderedPositionData[i].y < lowestY)
+			{
+				lowestY = orderedPositionData[i].y;
+			}
+			if (orderedPositionData[i].z < lowestZ)
+			{
+				lowestZ = orderedPositionData[i].z;
+			}
+
+			if (orderedPositionData[i].x > highestX)
+			{
+				lowestX = orderedPositionData[i].x;
+			}
+			if (orderedPositionData[i].y > highestY)
+			{
+				highestY = orderedPositionData[i].y;
+			}
+			if (orderedPositionData[i].z > highestZ)
+			{
+				highestZ = orderedPositionData[i].z;
+			}			
+		}
+		float actualLowest = 0, actualHighest = 0;
+
+		if (lowestX < lowestY && lowestX < lowestZ)
+		{
+			actualLowest = lowestX;
+		}
+		if (lowestY < lowestX && lowestY < lowestZ)
+		{
+			actualLowest = lowestY;
+		}
+		if (lowestZ < lowestX && lowestZ < lowestY)
+		{
+			actualLowest = lowestZ;
+		}
+
+		if (highestX > highestY && highestX > highestZ)
+		{
+			actualHighest = highestX;
+		}
+		if (highestY > highestX && highestY > highestZ)
+		{
+			highestY = highestX;
+		}
+		if (highestZ > highestX && highestZ > highestY)
+		{
+			highestZ = highestX;
+		}
+
+		modelWidth = (actualHighest - actualLowest);
 
 		inputFile.close();
 
@@ -217,10 +276,78 @@ void Mesh::Draw()
 
 			/*for (size_t i = 0; i < _numVertices; i += 3)
 			{
-				glDrawArrays(GL_LINE_LOOP, i, 3);						//will draw a wireframe
+				glDrawArrays(GL_LINE_LOOP, i, 3);						//will draw a wireframe if you want
 			}*/
 			
 		// Unbind VAO
 		glBindVertexArray( 0 );
 }
 
+void Mesh::SetAsCube()
+{
+	GLfloat skyboxVertices[] = {
+		// Positions          
+		-1.0f,  1.0f, -1.0f,
+		-1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,						//these are the cube vertices
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		-1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f, -1.0f,
+		1.0f,  1.0f,  1.0f,
+		1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		1.0f, -1.0f, -1.0f,
+		1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		1.0f, -1.0f,  1.0f
+	};
+
+	_numVertices = 36;					//36 vertexs
+
+	glBindVertexArray(_VAO);
+
+	// Variable for storing a VBO
+	GLuint posBuffer = 0;
+	// Create a generic 'buffer'
+	glGenBuffers(1, &posBuffer);
+	// Tell OpenGL that we want to activate the buffer and that it's a VBO
+	glBindBuffer(GL_ARRAY_BUFFER, posBuffer);
+	// With this buffer active, we can now send our data to OpenGL
+	// We need to tell it how much data to send
+	// We can also tell OpenGL how we intend to use this buffer - here we say GL_STATIC_DRAW because we're only writing it once
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * _numVertices * 3, &skyboxVertices[0], GL_STATIC_DRAW);
+
+	// This tells OpenGL how we link the vertex data to the shader
+	// (We will look at this properly in the lectures)
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
+
+}

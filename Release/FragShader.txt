@@ -1,0 +1,98 @@
+#version 430 core
+
+// Input per-fragment data
+
+in vec3 vNormalV;
+in vec3 eyeSpaceVertPosV;
+in vec2 texCoord;
+in mat4 _viewMat;
+
+
+// Input uniform data - these have values that will be the same for every fragment
+uniform int lightAmount;
+uniform float shininess = 100.0f;
+uniform float alpha = 1.0f;
+
+uniform vec4 lightPosition[10];
+uniform vec3 lightDirection[10];
+uniform vec3 lightColour[10];
+uniform vec3 emissiveColour[10];
+uniform vec3 ambientColour[10];
+uniform vec3 diffuseColour[10];
+uniform vec3 specularColour[10];
+uniform int lightCutOff[10];
+uniform float lightAngle[10];
+uniform int lightType[10];
+
+uniform sampler2D tex1;
+
+// The output of the fragment shader is the fragment's colour
+out vec4 fragColour;
+
+
+void main()
+{	
+	vec3 tempAmbient = vec3(0); 
+	vec3 tempEmissive = vec3(0);			//set a default of 0
+	vec3 tempDiffuse = vec3(0);
+	vec3 tempSpecular = vec3(0);
+
+	vec3 texColour = vec3(texture(tex1,texCoord));
+
+	for(int i = 0; i < lightAmount; i++)
+	{
+		//work out the maths for the different lighting calculations
+		vec3 eyeSpaceLightPosV = vec3(_viewMat * lightPosition[i]);
+		vec3 lightDir = normalize( eyeSpaceLightPosV - eyeSpaceVertPosV );
+		vec3 normal = normalize( vNormalV );
+		vec3 eyeDir = normalize( -eyeSpaceVertPosV );
+		vec3 halfVec = normalize( eyeDir + lightDir );
+		vec4 worldSpaceVertex = inverse(_viewMat) * vec4(eyeSpaceVertPosV, 1);
+		float dist = distance(worldSpaceVertex, lightPosition[i]);
+
+
+		if(lightType[i] == 0)					//directional
+		{
+		  lightDir = -eyeSpaceLightPosV;
+		  tempEmissive += emissiveColour[i];
+	          tempDiffuse += (diffuseColour[i] * lightColour[i] * max( dot( normal, lightDir ), 0));		
+		}
+		else if(lightType[i] == 1)				//point
+		{
+		  float lightToSurfaceAngle = degrees(acos(dot(-lightDir, normalize(lightDirection[i]))));
+		  if(lightToSurfaceAngle < lightAngle[i])
+	          {
+		    tempEmissive += emissiveColour[i];
+	            tempDiffuse += (diffuseColour[i] * lightColour[i] * max( dot( normal, lightDir ), 0));		  
+		  }		
+		}	
+		else if(lightType[i] == 2)				//spot
+		{
+			if(dist < lightCutOff[i])
+			{
+			 float attn = 1.0 / (1.0 + 0.1*dist + 0.01*dist*dist);
+			 attn = 1;
+
+			 // Calculate diffuse lighting
+			 tempDiffuse += (diffuseColour[i] * lightColour[i] * max( dot( normal, lightDir ), 0)) * attn;
+			
+			 vec3 VertexToEye = eyeSpaceLightPosV - eyeSpaceVertPosV ;
+			 vec3 LightReflect = reflect(eyeDir, normal);
+			 float specularFactor = dot(VertexToEye, LightReflect);
+			 if(specularFactor > 0)
+			 {
+			    //specularFactor = pow(specularFactor, 2);
+			     tempSpecular += vec3(lightColour[i] * 0.1f * specularFactor);
+			 }
+			 tempEmissive += emissiveColour[i] *attn;			 
+			}		
+		}
+		else if(lightType[i] == 3)				//global
+		{                  
+                   tempAmbient += ambientColour[i];		
+		}		
+	}
+
+	fragColour = vec4( tempEmissive + texColour*(tempAmbient + tempDiffuse + tempSpecular), alpha);
+	
+}

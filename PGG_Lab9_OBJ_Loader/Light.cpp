@@ -6,7 +6,7 @@ Light::Light()
 	m_lightDirection = glm::vec3(0);
 	m_lightColour = glm::vec3(0.1, 0.1, 0.1);
 	m_diffuseColour = glm::vec3(1.0f, 1.0f, 1.0f);
-	m_ambientColour = glm::vec3(0.1f, 0.1f, 0.2f);
+	m_ambientColour = glm::vec3(0.1f, 0.1f, 0.1f);				//default light values
 	m_specularColour = glm::vec3(1.0f, 1.0f, 1.0f);
 	m_emissiveColour = glm::vec3(0);
 	m_lightCutoff = 15;

@@ -1,13 +1,11 @@
-
 #ifndef __MESH__
 #define __MESH__
 
 #include <glm.hpp>
-#include <SDL.h>
+#include <SDL.h>					//the include files
 #include "glew.h"
 #include <string>
 
-// For loading a mesh from OBJ file and keeping a reference for it
 class Mesh
 {
 public:
@@ -15,20 +13,22 @@ public:
 	Mesh();
 	~Mesh();
 	
-	// OBJ file must be triangulated
-	void LoadOBJ( std::string filename );
+	void LoadOBJ( std::string filename );							//the public functions
 
-	// Draws the mesh - must have shaders applied for this to display!
 	void Draw();
 
-	
+	float GetModelWidth() { return modelWidth; }			
+
+	void SetAsCube();											//this is so you can set the mesh to be a cube (used for the skybox)
+
+
 protected:
 	
-	// OpenGL Vertex Array Object
 	GLuint _VAO;
 
-	// Number of vertices in the mesh
-	unsigned int _numVertices;
+	unsigned int _numVertices;			
+
+	float modelWidth;						//this is used so the program knows how big the collision box should be
 
 };
 

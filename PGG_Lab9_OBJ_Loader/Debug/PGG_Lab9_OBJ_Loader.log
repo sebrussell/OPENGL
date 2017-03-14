@@ -1,6 +1,5 @@
-﻿  Scene.cpp
-g:\opengl\pgg_lab9_obj_loader\scene.cpp(48): warning C4018: '<': signed/unsigned mismatch
-g:\opengl\pgg_lab9_obj_loader\scene.cpp(320): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-g:\opengl\pgg_lab9_obj_loader\scene.cpp(331): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+﻿  Main.cpp
+  BoxCollider.cpp
+  Generating Code...
   PGG_Lab9_OBJ_Loader.vcxproj -> G:\OPENGL\Debug\PGG_Lab9_OBJ_Loader.exe
   PGG_Lab9_OBJ_Loader.vcxproj -> G:\OPENGL\Debug\PGG_Lab9_OBJ_Loader.pdb (Full PDB)

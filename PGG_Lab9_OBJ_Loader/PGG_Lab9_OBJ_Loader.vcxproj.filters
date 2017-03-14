@@ -33,13 +33,16 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,6 +69,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FrameBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
